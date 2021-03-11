@@ -17,9 +17,9 @@ libmnblas.a: copy.o swap.o dot.o complexe.o
 
 # Bibliothèque dynamique
 
-libmnblasdyn.so:copy.o swap.o dot.o complexe.o
+libmnblasdyn.so: copy.o swap.o dot.o axpy.o asum.o iamin.o iamax.o nrm2.o complexe.o
 	rm -f libmnblasdyn.so $(LIB_DIR)/libmnblasdyn.so
-	gcc -shared -o libmnblasdyn.so copy.o swap.o dot.o complexe.o
+	gcc -shared -o libmnblasdyn.so copy.o swap.o dot.o axpy.o asum.o iamin.o iamax.o nrm2.o complexe.o
 	cp libmnblasdyn.so $(LIB_DIR)
 
 complexe.o: $(INC_DIR)/complexe.h complexe.c
@@ -35,6 +35,21 @@ swap.o : swap.c $(INC_DIR)/mnblas.h
 
 dot.o : dot.c $(INC_DIR)/mnblas.h
 	gcc  $(OPTIONS) -c dot.c
+
+axpy.o : axpy.c $(INC_DIR)/mnblas.h
+	gcc  $(OPTIONS) -c axpy.c
+
+asum.o : asum.c $(INC_DIR)/mnblas.h
+	gcc  $(OPTIONS) -c asum.c
+
+iamin.o : iamin.c $(INC_DIR)/mnblas.h
+	gcc  $(OPTIONS) -c iamin.c
+
+iamax.o : iamax.c $(INC_DIR)/mnblas.h
+	gcc  $(OPTIONS) -c iamax.c
+
+nrm2.o : nrm2.c $(INC_DIR)/mnblas.h
+	gcc  $(OPTIONS) -c nrm2.c
 
 # BLAS 2
 
