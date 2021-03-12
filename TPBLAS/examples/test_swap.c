@@ -34,7 +34,7 @@ int main (int argc, char **argv) {
     printf("---- Avant :\n");
     printf("V1s : "); vector_print(V1s,TYPE_FLOAT,VECSIZE_RESULTAT);
     printf("V2s : "); vector_print(V2s,TYPE_FLOAT,VECSIZE_RESULTAT);
-    mncblas_scopy(VECSIZE_RESULTAT,V1s,1,V2s,1);
+    mncblas_sswap(VECSIZE_RESULTAT,V1s,1,V2s,1);
     printf("---- Apres :\n");
     printf("V1s : "); vector_print(V1s,TYPE_FLOAT,VECSIZE_RESULTAT);
     printf("V2s : "); vector_print(V2s,TYPE_FLOAT,VECSIZE_RESULTAT);
@@ -46,7 +46,7 @@ int main (int argc, char **argv) {
     printf("---- Avant :\n");
     printf("V1s : "); vector_print(V1s,TYPE_FLOAT,VECSIZE_RESULTAT);
     printf("V2s : "); vector_print(V2s,TYPE_FLOAT,VECSIZE_RESULTAT);
-    mncblas_scopy(VECSIZE_RESULTAT,V1s,1,V2s,1);
+    mncblas_sswap(VECSIZE_RESULTAT,V1s,1,V2s,1);
     printf("---- Apres :\n");
     printf("V1s : "); vector_print(V1s,TYPE_FLOAT,VECSIZE_RESULTAT);
     printf("V2s : "); vector_print(V2s,TYPE_FLOAT,VECSIZE_RESULTAT);
@@ -59,7 +59,7 @@ int main (int argc, char **argv) {
     printf("---- Avant :\n");
     printf("V1d : "); vector_print(V1d,TYPE_DOUBLE,VECSIZE_RESULTAT);
     printf("V2d : "); vector_print(V2d,TYPE_DOUBLE,VECSIZE_RESULTAT);
-    mncblas_dcopy(VECSIZE_RESULTAT,V1d,1,V2d,1);
+    mncblas_dswap(VECSIZE_RESULTAT,V1d,1,V2d,1);
     printf("---- Apres :\n");
     printf("V1d : "); vector_print(V1d,TYPE_DOUBLE,VECSIZE_RESULTAT);
     printf("V2d : "); vector_print(V2d,TYPE_DOUBLE,VECSIZE_RESULTAT);
@@ -71,7 +71,7 @@ int main (int argc, char **argv) {
     V2d[VECSIZE_RESULTAT-1] = 1;
     printf("V1d : "); vector_print(V1d,TYPE_DOUBLE,VECSIZE_RESULTAT);
     printf("V2d : "); vector_print(V2d,TYPE_DOUBLE,VECSIZE_RESULTAT);
-    mncblas_dcopy(VECSIZE_RESULTAT,V1d,1,V2d,1);
+    mncblas_dswap(VECSIZE_RESULTAT,V1d,1,V2d,1);
     printf("---- Apres :\n");
     printf("V1d : "); vector_print(V1d,TYPE_DOUBLE,VECSIZE_RESULTAT);
     printf("V2d : "); vector_print(V2d,TYPE_DOUBLE,VECSIZE_RESULTAT);
@@ -84,7 +84,7 @@ int main (int argc, char **argv) {
     printf("---- Avant :\n");
     printf("V1c : "); vector_print(V1c,TYPE_COMPLEXE_FLOAT,VECSIZE_RESULTAT);
     printf("V2c : "); vector_print(V2c,TYPE_COMPLEXE_FLOAT,VECSIZE_RESULTAT);
-    mncblas_ccopy(VECSIZE_RESULTAT,V1c,1,V2c,1);
+    mncblas_cswap(VECSIZE_RESULTAT,V1c,1,V2c,1);
     printf("---- Apres :\n");
     printf("V1c : "); vector_print(V1c,TYPE_COMPLEXE_FLOAT,VECSIZE_RESULTAT);
     printf("V2c : "); vector_print(V2c,TYPE_COMPLEXE_FLOAT,VECSIZE_RESULTAT);
@@ -96,7 +96,7 @@ int main (int argc, char **argv) {
     V2c[VECSIZE_RESULTAT-1] = gen_complexe_float(1,0);
     printf("V1c : "); vector_print(V1c,TYPE_COMPLEXE_FLOAT,VECSIZE_RESULTAT);
     printf("V2c : "); vector_print(V2c,TYPE_COMPLEXE_FLOAT,VECSIZE_RESULTAT);
-    mncblas_ccopy(VECSIZE_RESULTAT,V1c,1,V2c,1);
+    mncblas_cswap(VECSIZE_RESULTAT,V1c,1,V2c,1);
     printf("---- Apres :\n");
     printf("V1c : "); vector_print(V1c,TYPE_COMPLEXE_FLOAT,VECSIZE_RESULTAT);
     printf("V2c : "); vector_print(V2c,TYPE_COMPLEXE_FLOAT,VECSIZE_RESULTAT);
@@ -109,7 +109,7 @@ int main (int argc, char **argv) {
     printf("---- Avant :\n");
     printf("V1z : "); vector_print(V1z,TYPE_COMPLEXE_DOUBLE,VECSIZE_RESULTAT);
     printf("V2z : "); vector_print(V2z,TYPE_COMPLEXE_DOUBLE,VECSIZE_RESULTAT);
-    mncblas_zcopy(VECSIZE_RESULTAT,V1z,1,V2z,1);
+    mncblas_zswap(VECSIZE_RESULTAT,V1z,1,V2z,1);
     printf("---- Apres :\n");
     printf("V1z : "); vector_print(V1z,TYPE_COMPLEXE_DOUBLE,VECSIZE_RESULTAT);
     printf("V2z : "); vector_print(V2z,TYPE_COMPLEXE_DOUBLE,VECSIZE_RESULTAT);
@@ -121,7 +121,7 @@ int main (int argc, char **argv) {
     V2z[VECSIZE_RESULTAT-1] = gen_complexe_double(1,0);
     printf("V1z : "); vector_print(V1z,TYPE_COMPLEXE_DOUBLE,VECSIZE_RESULTAT);
     printf("V2z : "); vector_print(V2z,TYPE_COMPLEXE_DOUBLE,VECSIZE_RESULTAT);
-    mncblas_zcopy(VECSIZE_RESULTAT,V1z,1,V2z,1);
+    mncblas_zswap(VECSIZE_RESULTAT,V1z,1,V2z,1);
     printf("---- Apres :\n");
     printf("V1z : "); vector_print(V1z,TYPE_COMPLEXE_DOUBLE,VECSIZE_RESULTAT);
     printf("V2z : "); vector_print(V2z,TYPE_COMPLEXE_DOUBLE,VECSIZE_RESULTAT);
@@ -147,66 +147,66 @@ int main (int argc, char **argv) {
         void_vector_sinit(V1s, 1,VECSIZE_FLOPS);
         void_vector_sinit(V2s, 2,VECSIZE_FLOPS);
         start = _rdtsc();
-        mncblas_scopy(VECSIZE_FLOPS,V1s,1,V2s,1);
+        mncblas_sswap(VECSIZE_FLOPS,V1s,1,V2s,1);
         end = _rdtsc();
-        calcul_flop("mncblas_scopy : ", NB_OPE_REEL*VECSIZE_FLOPS ,end-start);
+        calcul_flop("mncblas_sswap : ", NB_OPE_REEL*VECSIZE_FLOPS ,end-start);
     }
     printf("<--------------------------------------------------------------->\n                      float sur NB_EXPE\n");
     start = _rdtsc();
     for(int i = 0; i < NB_EXPE; i++) {
-        mncblas_scopy(VECSIZE_FLOPS,V1s,1,V2s,1);
+        mncblas_sswap(VECSIZE_FLOPS,V1s,1,V2s,1);
     }
     end = _rdtsc();
-    calcul_flop("mncblas_scopy : ", NB_EXPE*NB_OPE_REEL*VECSIZE_FLOPS ,end-start);
+    calcul_flop("mncblas_sswap : ", NB_EXPE*NB_OPE_REEL*VECSIZE_FLOPS ,end-start);
     printf("<--------------------------------------------------------------->\n                      double\n");
     for(int i = 0; i < NB_EXPE; i++) {
         printf("------------------------------------------------\n");
         void_vector_dinit(V1d, 1,VECSIZE_FLOPS);
         void_vector_dinit(V2d, 2,VECSIZE_FLOPS);
         start = _rdtsc();
-        mncblas_dcopy(VECSIZE_FLOPS,V1d,1,V2d,1);
+        mncblas_dswap(VECSIZE_FLOPS,V1d,1,V2d,1);
         end = _rdtsc();
-        calcul_flop("mncblas_dcopy : ", NB_OPE_REEL*VECSIZE_FLOPS ,end-start);
+        calcul_flop("mncblas_dswap : ", NB_OPE_REEL*VECSIZE_FLOPS ,end-start);
     }
     printf("<--------------------------------------------------------------->\n                      double sur NB_EXPE\n");
     start = _rdtsc();
     for(int i = 0; i < NB_EXPE; i++) {
-        mncblas_dcopy(VECSIZE_FLOPS,V1d,1,V2d,1);
+        mncblas_dswap(VECSIZE_FLOPS,V1d,1,V2d,1);
     }
     end = _rdtsc();
-    calcul_flop("mncblas_dcopy : ", NB_EXPE*NB_OPE_REEL*VECSIZE_FLOPS ,end-start);
+    calcul_flop("mncblas_dswap : ", NB_EXPE*NB_OPE_REEL*VECSIZE_FLOPS ,end-start);
     printf("<--------------------------------------------------------------->\n                      complexe_float_t\n");
     for(int i = 0; i < NB_EXPE; i++) {
         printf("------------------------------------------------\n");
         void_vector_cinit(V1c, gen_complexe_float(1,0),VECSIZE_FLOPS);
         void_vector_cinit2(V2c,2,0,VECSIZE_FLOPS);
         start = _rdtsc();
-        mncblas_ccopy(VECSIZE_FLOPS,V1c,1,V2c,1);
+        mncblas_cswap(VECSIZE_FLOPS,V1c,1,V2c,1);
         end = _rdtsc();
-        calcul_flop("mncblas_ccopy : ", NB_OPE_COMPLEXE*VECSIZE_FLOPS ,end-start);
+        calcul_flop("mncblas_cswap : ", NB_OPE_COMPLEXE*VECSIZE_FLOPS ,end-start);
     }
     printf("<--------------------------------------------------------------->\n                      complexe_float_t sur NB_EXPE\n");
     start = _rdtsc();
     for(int i = 0; i < NB_EXPE; i++) {
-        mncblas_ccopy(VECSIZE_FLOPS,V1c,1,V2c,1);
+        mncblas_cswap(VECSIZE_FLOPS,V1c,1,V2c,1);
     }
     end = _rdtsc();
-    calcul_flop("mncblas_ccopy : ", NB_EXPE*NB_OPE_COMPLEXE*VECSIZE_FLOPS ,end-start);
+    calcul_flop("mncblas_cswap : ", NB_EXPE*NB_OPE_COMPLEXE*VECSIZE_FLOPS ,end-start);
     printf("<--------------------------------------------------------------->\n                      complexe_double_t\n");
     for(int i = 0; i < NB_EXPE; i++) {
         printf("------------------------------------------------\n");
         void_vector_zinit(V1z, gen_complexe_double(1,0),VECSIZE_FLOPS);
         void_vector_zinit2(V2z,2,0,VECSIZE_FLOPS);
         start = _rdtsc();
-        mncblas_zcopy(VECSIZE_FLOPS,V1z,1,V2z,1);
+        mncblas_zswap(VECSIZE_FLOPS,V1z,1,V2z,1);
         end = _rdtsc();
-        calcul_flop("mncblas_zcopy : ", NB_OPE_COMPLEXE*VECSIZE_FLOPS ,end-start);
+        calcul_flop("mncblas_zswap : ", NB_OPE_COMPLEXE*VECSIZE_FLOPS ,end-start);
     }
     printf("<--------------------------------------------------------------->\n                      complexe_double_t sur NB_EXPE\n");
     start = _rdtsc();
     for(int i = 0; i < NB_EXPE; i++) {
-        mncblas_zcopy(VECSIZE_FLOPS,V1z,1,V2z,1);
+        mncblas_zswap(VECSIZE_FLOPS,V1z,1,V2z,1);
     }
     end = _rdtsc();
-    calcul_flop("mncblas_zcopy : ", NB_EXPE*NB_OPE_COMPLEXE*VECSIZE_FLOPS ,end-start);
+    calcul_flop("mncblas_zswap : ", NB_EXPE*NB_OPE_COMPLEXE*VECSIZE_FLOPS ,end-start);
 }

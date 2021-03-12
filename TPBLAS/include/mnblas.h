@@ -18,7 +18,7 @@ typedef enum {MNCblasLeft=141, MNCblasRight=142} MNCBLAS_SIDE;
   BLAS copy
 */
 
-void mncblas_scopy(const int N, const float *X, const int incX, float *Y, const int incY);
+void mncblas_scopy(const int N, const float *X, const int incX, float *Y, const int incY); // NB OPERATION FLOTANTE: 0? , NB_AFFECTATION : 1;
 
 void mncblas_dcopy(const int N, const double *X, const int incX, double *Y, const int incY);
 

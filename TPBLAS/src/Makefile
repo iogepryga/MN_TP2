@@ -49,7 +49,7 @@ iamax.o : iamax.c $(INC_DIR)/mnblas.h
 	gcc  $(OPTIONS) -c iamax.c
 
 nrm2.o : nrm2.c $(INC_DIR)/mnblas.h
-	gcc  $(OPTIONS) -c nrm2.c
+	gcc  $(OPTIONS) -c nrm2.c -lm
 
 # BLAS 2
 

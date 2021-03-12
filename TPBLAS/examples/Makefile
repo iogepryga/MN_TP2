@@ -1,4 +1,4 @@
-all: test_complexe2 test_complexe test_dot test_dot_dyn
+all: test_complexe2 test_complexe test_dot test_dot_dyn test_copy
 
 INC_DIR=../include
 
@@ -19,10 +19,12 @@ flop.o: flop.c flop.h
 	gcc $(OPTIONS_COMPIL) -c flop.c
 
 test_dot_dyn: test_dot.o flop.o
-	gcc -o test_dot_dyn flop.o test_dot.o $(OPTIONS_LINK_DYN)
+	gcc -o test_dot_dyn flop.o test_dot.o $(OPTIONS_LINK_DYN) -lm
 
 test_dot.o: test_dot.c $(INC_DIR)/mnblas.h
 	gcc $(OPTIONS_COMPIL) -c test_dot.c
+
+
 
 test_complexe.o: test_complexe.c  $(INC_DIR)/complexe.h
 	gcc $(OPTIONS_COMPIL) -c test_complexe.c
@@ -37,5 +39,25 @@ test_complexe2: test_complexe2.o flop.o
 	gcc -o test_complexe2 test_complexe2.o flop.o $(OPTIONS_LINK_STATIC)
 
 
+
+testutils.o: testutils.c $(INC_DIR)/mnblas.h $(INC_DIR)/complexe.h testutils.h
+	gcc $(OPTIONS_COMPIL) -c testutils.c
+
+
+
+test_copy: test_copy.o testutils.o  $(LIB_DIR)/libmnblas.a
+	gcc -o test_copy test_copy.o testutils.o $(OPTIONS_LINK_STATIC)
+
+test_copy.o : test_copy.c $(INC_DIR)/mnblas.h testutils.h
+	gcc $(OPTIONS_COMPIL) -c test_copy.c
+
+
+test_swap: test_swap.o testutils.o  $(LIB_DIR)/libmnblas.a
+	gcc -o test_swap test_swap.o testutils.o $(OPTIONS_LINK_STATIC)
+
+test_swap.o : test_swap.c $(INC_DIR)/mnblas.h testutils.h
+	gcc $(OPTIONS_COMPIL) -c test_swap.c
+
+
 clean:
-	rm -f *.o test_dot test_dot_dyn test_complexe test_complexe2 *~
+	rm -f *.o test_dot test_dot_dyn test_complexe test_complexe2 *~ test_copy

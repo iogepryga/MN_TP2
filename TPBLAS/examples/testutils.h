@@ -1,6 +1,3 @@
-#define VECSIZE     65536
-#define NB_EXPE     10
-
 #ifndef MNBLAS_H
 #define MNBLAS_H
 #include "mnblas.h"
@@ -36,6 +33,10 @@ void void_vector_dinit (double* V, const double x, const register unsigned int l
 void void_vector_cinit (complexe_float_t* V, const complexe_float_t x, const register unsigned int len);
 
 void void_vector_zinit (complexe_double_t* V, const complexe_double_t x, const register unsigned int len);
+
+void void_vector_cinit2 (complexe_float_t* V, const float real, const float imaginary, const register unsigned int len);
+
+void void_vector_zinit2 (complexe_double_t* V, const double real, const double imaginary, const register unsigned int len);
 
 float* vector_sinit (const float x, const register unsigned int len);
 

@@ -44,7 +44,7 @@ int main (int argc, char **argv)
  init_flop () ;
  
  for (i = 0 ; i < NB_FOIS; i++)
-   {
+  {
      vector_init (vec1, 1.0) ;
      vector_init (vec2, 2.0) ;
      res = 0.0 ;
@@ -55,5 +55,5 @@ int main (int argc, char **argv)
      
      printf ("mncblas_sdot %d : res = %3.2f nombre de cycles: %Ld \n", i, res, end-start) ;
      calcul_flop ("sdot ", 2 * VECSIZE, end-start) ;
-   }
+  }
 }
