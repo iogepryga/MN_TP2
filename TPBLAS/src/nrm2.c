@@ -1,5 +1,6 @@
 #include "mnblas.h"
 #include "complexe.h"
+#include <math.h>
 
 float  mnblas_snrm2(const int N, const float *X, const int incX) {
     register float sum = 0;

@@ -36,7 +36,7 @@ double mncblas_ddot(const int N, const double *X, const int incX, const double *
 }
 
 void mncblas_cdotu_sub(const int N, const void *X, const int incX, const void *Y, const int incY, void *dotu) {
-  register complexe_float_t dot,tmp; dot.real=0; dot.imaginary =0;
+  register complexe_float_t dot; dot.real=0; dot.imaginary =0; //tmp
   for(register unsigned int i = 0 , j= 0 ; i < N ; i += incX , j+=incY) {
     //tentative 1 :
     /*tmp = mult_complexe_float(*((complexe_float_t*)X+i),*((complexe_float_t*)Y+j));
@@ -54,7 +54,7 @@ void mncblas_cdotu_sub(const int N, const void *X, const int incX, const void *Y
 }
 
 void mncblas_cdotc_sub(const int N, const void *X, const int incX, const void *Y, const int incY, void *dotc) {
-  register complexe_float_t dot,tmp; dot.real=0; dot.imaginary =0;
+  register complexe_float_t dot; dot.real=0; dot.imaginary =0; //tmp
   for(register unsigned int i = 0 , j= 0 ; i < N ; i += incX , j+=incY) {
     //tentative 1 :
     /*tmp = mult_complexe_double(*((complexe_float_t*)X+i),*((complexe_float_t*)Y+j));
@@ -73,7 +73,7 @@ void mncblas_cdotc_sub(const int N, const void *X, const int incX, const void *Y
 }
 
 void mncblas_zdotu_sub(const int N, const void *X, const int incX, const void *Y, const int incY, void *dotu) {
-  register complexe_double_t dot,tmp; dot.real=0; dot.imaginary =0;
+  register complexe_double_t dot; dot.real=0; dot.imaginary =0; //tmp
   for(register unsigned int i = 0 , j= 0 ; i < N ; i += incX , j+=incY) {
     dot = add_complexe_double(dot,mult_complexe_double(*((complexe_double_t*)X+i),*((complexe_double_t*)Y+j)));
   }
@@ -85,7 +85,7 @@ void mncblas_zdotu_sub(const int N, const void *X, const int incX, const void *Y
 }
   
 void mncblas_zdotc_sub(const int N, const void *X, const int incX, const void *Y, const int incY, void *dotc) {
-  register complexe_double_t dot,tmp; dot.real=0; dot.imaginary =0;
+  register complexe_double_t dot; dot.real=0; dot.imaginary =0; //tmp
   for(register unsigned int i = 0 , j= 0 ; i < N ; i += incX , j+=incY) {
     ((complexe_double_t*)X+i)->imaginary *= -1;
     dot = add_complexe_double(dot,mult_complexe_double(*((complexe_double_t*)X+i),*((complexe_double_t*)Y+j)));
