@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include <x86intrin.h>
 
 #ifndef TESTUILS_H
@@ -36,7 +37,27 @@ complexe_double_t gen_complexe_double (const double real, const double imaginary
     return tmp;
 }
 
+float rand_float(const int max) {
+    return ((float)rand()/(float)(RAND_MAX)) * max;
+}
 
+double rand_double(const int max) {
+    return ((float)rand()/(float)(RAND_MAX)) * max;
+}
+
+complexe_float_t rand_complexe_float_t(const int max) {
+    complexe_float_t tmp;
+    tmp.real = rand_float(max);
+    tmp.imaginary = rand_float(max);
+    return tmp;
+}
+
+complexe_double_t rand_complexe_double_t(const int max) {
+    complexe_double_t tmp;
+    tmp.real = rand_double(max);
+    tmp.imaginary = rand_double(max);
+    return tmp;
+}
 
 /*
     VECTOR_INIT
@@ -79,6 +100,10 @@ void void_vector_zinit2 (complexe_double_t* V, const double real, const double i
         V[i].imaginary = imaginary;
     }
 }
+
+
+
+
 
 float* vector_sinit (const float x, const register unsigned int len) {
     float* V = (float*)malloc(len*sizeof(float));
@@ -130,6 +155,36 @@ complexe_double_t* vector_zinit2 (const double real, const double imaginary, con
     return V;
 }
 
+
+
+
+void void_vector_sinit_rand (float* V, const int max, const register unsigned int len) {
+    srand(_rdtsc());
+    for(register unsigned int i = 0; i < len; i++) {
+        V[i] = rand_float(max);
+    }
+}
+
+void void_vector_dinit_rand (double* V, const int max, const register unsigned int len) {
+    srand(_rdtsc());
+    for(register unsigned int i = 0; i < len; i++) {
+        V[i] = rand_double(max);
+    }
+}
+
+void void_vector_cinit_rand (complexe_float_t* V, const int max, const register unsigned int len) {
+    srand(_rdtsc());
+    for(register unsigned int i = 0; i < len; i++) {
+        V[i] = rand_complexe_float_t(max);
+    }
+}
+
+void void_vector_zinit_rand (complexe_double_t* V, const int max, const register unsigned int len) {
+    srand(_rdtsc());
+    for(register unsigned int i = 0; i < len; i++) {
+        V[i] = rand_complexe_double_t(max);
+    }
+}
 /*
     END VECTOR_INIT
 */

@@ -17,6 +17,7 @@
 #endif
 
 #define VECSIZE_RESULTAT     20
+#define RAND_MAXIMUM 10
 
 int main (int argc, char **argv) {
     float* V1s = (float*)malloc(VECSIZE_RESULTAT*sizeof(float)); float* V2s = (float*)malloc(VECSIZE_RESULTAT*sizeof(float));
@@ -27,7 +28,7 @@ int main (int argc, char **argv) {
     
 
 
-    printf("|||||||||||||||||||||||||||||||||||||||||||||||||||||\n                           1: TEST DE BON RESULTAT\n<------------------------------------------>\n                   float\n");
+    printf("                   TEST_COPY\n|||||||||||||||||||||||||||||||||||||||||||||||||||||\n                           1: TEST DE BON RESULTAT\n<------------------------------------------>\n                   float\n");
     printf("---------- test 1 : \n");
     void_vector_sinit(V1s, 1,VECSIZE_RESULTAT);
     void_vector_sinit(V2s, 2,VECSIZE_RESULTAT);
@@ -39,8 +40,8 @@ int main (int argc, char **argv) {
     printf("V1s : "); vector_print(V1s,TYPE_FLOAT,VECSIZE_RESULTAT);
     printf("V2s : "); vector_print(V2s,TYPE_FLOAT,VECSIZE_RESULTAT);
     printf("---------- test 2 : \n");
-    void_vector_sinit(V1s, 1,VECSIZE_RESULTAT);
-    void_vector_sinit(V2s, 2,VECSIZE_RESULTAT);
+    void_vector_sinit_rand(V1s, RAND_MAXIMUM,VECSIZE_RESULTAT);
+    void_vector_sinit_rand(V2s, RAND_MAXIMUM,VECSIZE_RESULTAT);
     V1s[VECSIZE_RESULTAT-1] = 0;
     V2s[VECSIZE_RESULTAT-1] = 1;
     printf("---- Avant :\n");
@@ -64,8 +65,8 @@ int main (int argc, char **argv) {
     printf("V1d : "); vector_print(V1d,TYPE_DOUBLE,VECSIZE_RESULTAT);
     printf("V2d : "); vector_print(V2d,TYPE_DOUBLE,VECSIZE_RESULTAT);
     printf("---------- test 2 : \n");
-    void_vector_dinit(V1d, 1,VECSIZE_RESULTAT);
-    void_vector_dinit(V2d, 2,VECSIZE_RESULTAT);
+    void_vector_dinit_rand(V1d, RAND_MAXIMUM,VECSIZE_RESULTAT);
+    void_vector_dinit_rand(V2d, RAND_MAXIMUM,VECSIZE_RESULTAT);
     printf("---- Avant :\n");
     V1d[VECSIZE_RESULTAT-1] = 0;
     V2d[VECSIZE_RESULTAT-1] = 1;
@@ -89,8 +90,8 @@ int main (int argc, char **argv) {
     printf("V1c : "); vector_print(V1c,TYPE_COMPLEXE_FLOAT,VECSIZE_RESULTAT);
     printf("V2c : "); vector_print(V2c,TYPE_COMPLEXE_FLOAT,VECSIZE_RESULTAT);
     printf("---------- test 2 : \n");
-    void_vector_cinit(V1c, gen_complexe_float(1,1),VECSIZE_RESULTAT);
-    void_vector_cinit2(V2c,2,2,VECSIZE_RESULTAT);
+    void_vector_cinit_rand(V1c, RAND_MAXIMUM,VECSIZE_RESULTAT);
+    void_vector_cinit_rand(V2c, RAND_MAXIMUM,VECSIZE_RESULTAT);
     printf("---- Avant :\n");
     V1c[VECSIZE_RESULTAT-1] = gen_complexe_float(0,0);
     V2c[VECSIZE_RESULTAT-1] = gen_complexe_float(1,0);
@@ -114,8 +115,8 @@ int main (int argc, char **argv) {
     printf("V1z : "); vector_print(V1z,TYPE_COMPLEXE_DOUBLE,VECSIZE_RESULTAT);
     printf("V2z : "); vector_print(V2z,TYPE_COMPLEXE_DOUBLE,VECSIZE_RESULTAT);
     printf("---------- test 2 : \n");
-    void_vector_zinit(V1z, gen_complexe_double(1,1),VECSIZE_RESULTAT);
-    void_vector_zinit2(V2z,2,2,VECSIZE_RESULTAT);
+    void_vector_zinit_rand(V1z, RAND_MAXIMUM,VECSIZE_RESULTAT);
+    void_vector_zinit_rand(V2z, RAND_MAXIMUM,VECSIZE_RESULTAT);
     printf("---- Avant :\n");
     V1z[VECSIZE_RESULTAT-1] = gen_complexe_double(0,0);
     V2z[VECSIZE_RESULTAT-1] = gen_complexe_double(1,0);
@@ -144,8 +145,6 @@ int main (int argc, char **argv) {
     unsigned long long int start, end ; 
     for(int i = 0; i < NB_EXPE; i++) {
         printf("------------------------------------------------\n");
-        void_vector_sinit(V1s, 1,VECSIZE_FLOPS);
-        void_vector_sinit(V2s, 2,VECSIZE_FLOPS);
         start = _rdtsc();
         mncblas_scopy(VECSIZE_FLOPS,V1s,1,V2s,1);
         end = _rdtsc();
@@ -161,8 +160,6 @@ int main (int argc, char **argv) {
     printf("<--------------------------------------------------------------->\n                      double\n");
     for(int i = 0; i < NB_EXPE; i++) {
         printf("------------------------------------------------\n");
-        void_vector_dinit(V1d, 1,VECSIZE_FLOPS);
-        void_vector_dinit(V2d, 2,VECSIZE_FLOPS);
         start = _rdtsc();
         mncblas_dcopy(VECSIZE_FLOPS,V1d,1,V2d,1);
         end = _rdtsc();
@@ -178,8 +175,6 @@ int main (int argc, char **argv) {
     printf("<--------------------------------------------------------------->\n                      complexe_float_t\n");
     for(int i = 0; i < NB_EXPE; i++) {
         printf("------------------------------------------------\n");
-        void_vector_cinit(V1c, gen_complexe_float(1,0),VECSIZE_FLOPS);
-        void_vector_cinit2(V2c,2,0,VECSIZE_FLOPS);
         start = _rdtsc();
         mncblas_ccopy(VECSIZE_FLOPS,V1c,1,V2c,1);
         end = _rdtsc();
@@ -195,8 +190,6 @@ int main (int argc, char **argv) {
     printf("<--------------------------------------------------------------->\n                      complexe_double_t\n");
     for(int i = 0; i < NB_EXPE; i++) {
         printf("------------------------------------------------\n");
-        void_vector_zinit(V1z, gen_complexe_double(1,0),VECSIZE_FLOPS);
-        void_vector_zinit2(V2z,2,0,VECSIZE_FLOPS);
         start = _rdtsc();
         mncblas_zcopy(VECSIZE_FLOPS,V1z,1,V2z,1);
         end = _rdtsc();

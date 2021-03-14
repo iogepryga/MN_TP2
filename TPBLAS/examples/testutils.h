@@ -17,6 +17,13 @@ void free_vm (void* address);
 complexe_float_t gen_complexe_float (const float real, const float imaginary);
 complexe_double_t gen_complexe_double (const double real, const double imaginary);
 
+float rand_float(const int max);
+
+double rand_double(const int max);
+
+complexe_float_t rand_complexe_float_t(const int max);
+
+complexe_double_t rand_complexe_double_t(const int max);
 
 
 
@@ -49,6 +56,14 @@ complexe_double_t* vector_zinit (const complexe_double_t x, const register unsig
 complexe_float_t* vector_cinit2 (const float real, const float imaginary, const register unsigned int len);
 
 complexe_double_t* vector_zinit2 (const double real, const double imaginary, const register unsigned int len);
+
+void void_vector_sinit_rand (float* V, const int max, const register unsigned int len);
+
+void void_vector_dinit_rand (double* V, const int max, const register unsigned int len);
+
+void void_vector_cinit_rand (complexe_float_t* V, const int max, const register unsigned int len);
+
+void void_vector_zinit_rand (complexe_double_t* V, const int max, const register unsigned int len);
 
 /*
     END VECTOR_INIT

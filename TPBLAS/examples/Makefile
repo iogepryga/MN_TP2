@@ -60,4 +60,4 @@ test_swap.o : test_swap.c $(INC_DIR)/mnblas.h testutils.h
 
 
 clean:
-	rm -f *.o test_dot test_dot_dyn test_complexe test_complexe2 *~ test_copy
+	rm -f *.o test_dot test_dot_dyn test_complexe test_complexe2 *~ test_copy test_swap
