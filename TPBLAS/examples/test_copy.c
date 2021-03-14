@@ -128,7 +128,14 @@ int main (int argc, char **argv) {
     printf("V2z : "); vector_print(V2z,TYPE_COMPLEXE_DOUBLE,VECSIZE_RESULTAT);
 
 
-
+    free_vm(V1s);
+    free_vm(V1d);
+    free_vm(V1c);
+    free_vm(V1z);
+    free_vm(V2s);
+    free_vm(V2d);
+    free_vm(V2c);
+    free_vm(V2z);
 
     #define VECSIZE_FLOPS    100000
     #define NB_EXPE     10
@@ -202,4 +209,14 @@ int main (int argc, char **argv) {
     }
     end = _rdtsc();
     calcul_flop("mncblas_zcopy : ", NB_EXPE*NB_OPE_COMPLEXE*VECSIZE_FLOPS ,end-start);
+
+
+    free_vm(V1s);
+    free_vm(V1d);
+    free_vm(V1c);
+    free_vm(V1z);
+    free_vm(V2s);
+    free_vm(V2d);
+    free_vm(V2c);
+    free_vm(V2z);
 }
