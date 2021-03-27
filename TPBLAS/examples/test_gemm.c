@@ -1,0 +1,417 @@
+#include <stdio.h>
+#include <x86intrin.h>
+
+#ifndef MNBLAS_H
+#define MNBLAS_H
+#include "mnblas.h"
+#endif
+
+#ifndef COMPEXE_H
+#define COMPEXE_H
+#include "complexe.h"
+#endif
+
+#ifndef TESTUILS_H
+#define TESTUILS_H
+#include "testutils.h"
+#endif
+
+#define M_RESULTAT 3
+#define N_RESULTAT 4
+#define K_RESULTAT 2
+#define RAND_MAXIMUM 10
+
+int main (int argc, char **argv) {
+    float* M1s = (float*)malloc(M_RESULTAT*N_RESULTAT*sizeof(float));
+    float* M2s = (float*)malloc(N_RESULTAT*K_RESULTAT*sizeof(float));
+    float* M3s = (float*)malloc(M_RESULTAT*K_RESULTAT*sizeof(float));
+    float* M3s_copy = (float*)malloc(M_RESULTAT*K_RESULTAT*sizeof(float));
+    double* M1d = (double*)malloc(M_RESULTAT*N_RESULTAT*sizeof(double));
+    double* M2d = (double*)malloc(N_RESULTAT*K_RESULTAT*sizeof(double));
+    double* M3d = (double*)malloc(M_RESULTAT*K_RESULTAT*sizeof(double));
+    double* M3d_copy = (double*)malloc(M_RESULTAT*K_RESULTAT*sizeof(double));
+    complexe_float_t* M1c = (complexe_float_t*)malloc(M_RESULTAT*N_RESULTAT*sizeof(complexe_float_t));
+    complexe_float_t* M2c = (complexe_float_t*)malloc(N_RESULTAT*K_RESULTAT*sizeof(complexe_float_t));
+    complexe_float_t* M3c = (complexe_float_t*)malloc(M_RESULTAT*K_RESULTAT*sizeof(complexe_float_t));
+    complexe_float_t* M3c_copy = (complexe_float_t*)malloc(M_RESULTAT*K_RESULTAT*sizeof(complexe_float_t));
+    complexe_double_t* M1z = (complexe_double_t*)malloc(M_RESULTAT*N_RESULTAT*sizeof(complexe_double_t));
+    complexe_double_t* M2z = (complexe_double_t*)malloc(N_RESULTAT*K_RESULTAT*sizeof(complexe_double_t));
+    complexe_double_t* M3z = (complexe_double_t*)malloc(M_RESULTAT*K_RESULTAT*sizeof(complexe_double_t));
+    complexe_double_t* M3z_copy = (complexe_double_t*)malloc(M_RESULTAT*K_RESULTAT*sizeof(complexe_double_t));
+    
+    
+    
+    complexe_float_t tmpc = gen_complexe_float(2,0);
+    complexe_double_t tmpz = gen_complexe_double(2,0);
+
+    
+
+
+    printf("                   TEST_GEMM\n|||||||||||||||||||||||||||||||||||||||||||||||||||||\n                           1: TEST DE BON RESULTAT\n<------------------------------------------>\n                   float\n");
+    printf("-------------------------- test 1 (M3s=2*M1s*M2s+2*M3s) (MNCblasRowMajor): \n");
+    void_matrix_sinit(M1s, 1,M_RESULTAT,N_RESULTAT);
+    void_matrix_sinit(M2s, 1,N_RESULTAT,K_RESULTAT);
+    void_matrix_sinit(M3s, 1,M_RESULTAT,K_RESULTAT);
+    printf("---- Avant :\n");
+    printf("M1s : "); matrix_print(M1s,TYPE_FLOAT,MNCblasRowMajor,M_RESULTAT,N_RESULTAT);
+    printf("M2s : "); matrix_print(M2s,TYPE_FLOAT,MNCblasRowMajor,N_RESULTAT,K_RESULTAT);
+    printf("M3s : "); matrix_print(M3s,TYPE_FLOAT,MNCblasRowMajor,M_RESULTAT,K_RESULTAT);
+    mncblas_sgemm(MNCblasRowMajor,MNCblasNoTrans,MNCblasNoTrans,M_RESULTAT,N_RESULTAT,K_RESULTAT,2,M1s,1,M2s,1,2,M3s,1);
+    printf("---- Apres :\n");
+    printf("M3s : "); matrix_print(M3s,TYPE_FLOAT,MNCblasRowMajor,M_RESULTAT,K_RESULTAT);
+
+    /*printf("-------------------------- test 2 (V2s=2*Ms*V1s+2*V2s) (MNCblasColMajor): \n");
+    void_vector_sinit(V2s, 2,M_RESULTAT);
+    printf("---- Avant :\n");
+    printf("Ms : "); matrix_print(Ms,TYPE_FLOAT,MNCblasColMajor,M_RESULTAT,N_RESULTAT);
+    printf("V1s : "); vector_print(V1s,TYPE_FLOAT,N_RESULTAT);
+    printf("V2s : "); vector_print(V2s,TYPE_FLOAT,M_RESULTAT);
+    mncblas_sgemv(MNCblasColMajor,MNCblasNoTrans,M_RESULTAT,N_RESULTAT,2,Ms,1,V1s,1,2,V2s,1);
+    printf("---- Apres :\n");
+    printf("V2s : "); vector_print(V2s,TYPE_FLOAT,M_RESULTAT);*/
+
+
+    printf("-------------------------- test 3 (M3s=2*M1s*M2s+2*M3s) (MNCblasRowMajor): \n");
+    void_matrix_sinit_rand(M1s, RAND_MAXIMUM,M_RESULTAT,N_RESULTAT);
+    void_matrix_sinit_rand(M2s, RAND_MAXIMUM,N_RESULTAT,K_RESULTAT);
+    void_matrix_sinit_rand(M3s, RAND_MAXIMUM,M_RESULTAT,K_RESULTAT);
+    printf("---- Avant :\n");
+    printf("M1s : "); matrix_print(M1s,TYPE_FLOAT,MNCblasRowMajor,M_RESULTAT,N_RESULTAT);
+    printf("M2s : "); matrix_print(M2s,TYPE_FLOAT,MNCblasRowMajor,N_RESULTAT,K_RESULTAT);
+    printf("M3s : "); matrix_print(M3s,TYPE_FLOAT,MNCblasRowMajor,M_RESULTAT,K_RESULTAT);
+    mncblas_sgemm(MNCblasRowMajor,MNCblasNoTrans,MNCblasNoTrans,M_RESULTAT,N_RESULTAT,K_RESULTAT,2,M1s,1,M2s,1,2,M3s,1);
+    printf("---- Apres :\n");
+    printf("M3s : "); matrix_print(M3s,TYPE_FLOAT,MNCblasRowMajor,M_RESULTAT,K_RESULTAT);
+    /*printf("-------------------------- test 4 (V2s=2*Ms*V1s+2*V2s) (MNCblasColMajor): \n");
+    printf("---- Avant :\n");
+    row_to_col_major(TYPE_FLOAT,Ms,M_RESULTAT,N_RESULTAT);
+    printf("Ms : "); matrix_print(Ms,TYPE_FLOAT,MNCblasColMajor,M_RESULTAT,N_RESULTAT);
+    printf("V1s : "); vector_print(V1s,TYPE_FLOAT,N_RESULTAT);
+    printf("V2s : "); vector_print(V2s_copy,TYPE_FLOAT,M_RESULTAT);
+    mncblas_sgemv(MNCblasColMajor,MNCblasNoTrans,M_RESULTAT,N_RESULTAT,2,Ms,1,V1s,1,2,V2s_copy,1);
+    printf("---- Apres :\n");
+    printf("V2s : "); vector_print(V2s_copy,TYPE_FLOAT,M_RESULTAT);
+
+    // Trans :
+
+    printf("-------------------------- test 5 (V2s=2*Ms*V1s+2*V2s) (MNCblasRowMajor,MNCblasTrans): \n");
+    void_matrix_sinit(Ms,1,M_RESULTAT,N_RESULTAT);
+    void_vector_sinit(V1s, 1,M_RESULTAT);
+    void_vector_sinit(V2s, 2,N_RESULTAT);
+    printf("---- Avant :\n");
+    printf("Ms : "); matrix_print(Ms,TYPE_FLOAT,MNCblasRowMajor,M_RESULTAT,N_RESULTAT);
+    printf("V1s : "); vector_print(V1s,TYPE_FLOAT,M_RESULTAT);
+    printf("V2s : "); vector_print(V2s,TYPE_FLOAT,N_RESULTAT);
+    mncblas_sgemv(MNCblasRowMajor,MNCblasTrans,M_RESULTAT,N_RESULTAT,2,Ms,1,V1s,1,2,V2s,1);
+    printf("---- Apres :\n");
+    printf("V2s : "); vector_print(V2s,TYPE_FLOAT,N_RESULTAT);
+    printf("-------------------------- test 6 (V2s=2*Ms*V1s+2*V2s) (MNCblasColMajor,MNCblasTrans): \n");
+    void_vector_sinit(V2s, 2,N_RESULTAT);
+    printf("---- Avant :\n");
+    printf("Ms : "); matrix_print(Ms,TYPE_FLOAT,MNCblasColMajor,M_RESULTAT,N_RESULTAT);
+    printf("V1s : "); vector_print(V1s,TYPE_FLOAT,M_RESULTAT);
+    printf("V2s : "); vector_print(V2s,TYPE_FLOAT,N_RESULTAT);
+    mncblas_sgemv(MNCblasColMajor,MNCblasTrans,M_RESULTAT,N_RESULTAT,2,Ms,1,V1s,1,2,V2s,1);
+    printf("---- Apres :\n");
+    printf("V2s : "); vector_print(V2s,TYPE_FLOAT,N_RESULTAT);
+
+
+    printf("-------------------------- test 7 (V2s=2*Ms*V1s+2*V2s) (MNCblasRowMajor,MNCblasTrans): \n");
+    void_matrix_sinit_rand(Ms,RAND_MAXIMUM,M_RESULTAT,N_RESULTAT);
+    void_vector_sinit_rand(V1s, RAND_MAXIMUM,M_RESULTAT);
+    void_vector_sinit_rand(V2s, RAND_MAXIMUM,N_RESULTAT);
+    mncblas_scopy(N_RESULTAT,V2s,1,V2s_copy,1);
+    printf("---- Avant :\n");
+    printf("Ms : "); matrix_print(Ms,TYPE_FLOAT,MNCblasRowMajor,M_RESULTAT,N_RESULTAT);
+    printf("V1s : "); vector_print(V1s,TYPE_FLOAT,M_RESULTAT);
+    printf("V2s : "); vector_print(V2s,TYPE_FLOAT,N_RESULTAT);
+    mncblas_sgemv(MNCblasRowMajor,MNCblasTrans,M_RESULTAT,N_RESULTAT,2,Ms,1,V1s,1,2,V2s,1);
+    printf("---- Apres :\n");
+    printf("V2s : "); vector_print(V2s,TYPE_FLOAT,N_RESULTAT);
+    printf("-------------------------- test 8 (V2s=2*Ms*V1s+2*V2s) (MNCblasColMajor,MNCblasTrans): \n");
+    printf("---- Avant :\n");
+    row_to_col_major(TYPE_FLOAT,Ms,M_RESULTAT,N_RESULTAT);
+    printf("Ms : "); matrix_print(Ms,TYPE_FLOAT,MNCblasColMajor,M_RESULTAT,N_RESULTAT);
+    printf("V1s : "); vector_print(V1s,TYPE_FLOAT,M_RESULTAT);
+    printf("V2s : "); vector_print(V2s_copy,TYPE_FLOAT,N_RESULTAT);
+    mncblas_sgemv(MNCblasColMajor,MNCblasTrans,M_RESULTAT,N_RESULTAT,2,Ms,1,V1s,1,2,V2s_copy,1);
+    printf("---- Apres :\n");
+    printf("V2s : "); vector_print(V2s_copy,TYPE_FLOAT,N_RESULTAT);*/
+
+    printf("<------------------------------------------>\n                   double\n");
+
+    printf("-------------------------- test 1 (M3d=2*M1d*M2d+2*M3d) (MNCblasRowMajor): \n");
+    void_matrix_dinit(M1d, 1,M_RESULTAT,N_RESULTAT);
+    void_matrix_dinit(M2d, 1,N_RESULTAT,K_RESULTAT);
+    void_matrix_dinit(M3d, 1,M_RESULTAT,K_RESULTAT);
+    printf("---- Avant :\n");
+    printf("M1d : "); matrix_print(M1d,TYPE_DOUBLE,MNCblasRowMajor,M_RESULTAT,N_RESULTAT);
+    printf("M2d : "); matrix_print(M2d,TYPE_DOUBLE,MNCblasRowMajor,N_RESULTAT,K_RESULTAT);
+    printf("M3d : "); matrix_print(M3d,TYPE_DOUBLE,MNCblasRowMajor,M_RESULTAT,K_RESULTAT);
+    mncblas_dgemm(MNCblasRowMajor,MNCblasNoTrans,MNCblasNoTrans,M_RESULTAT,N_RESULTAT,K_RESULTAT,2,M1d,1,M2d,1,2,M3d,1);
+    printf("---- Apres :\n");
+    printf("M3d : "); matrix_print(M3d,TYPE_DOUBLE,MNCblasRowMajor,M_RESULTAT,K_RESULTAT);
+
+    printf("-------------------------- test 3 (M3d=2*M1d*M2d+2*M3d) (MNCblasRowMajor): \n");
+    void_matrix_dinit_rand(M1d, RAND_MAXIMUM,M_RESULTAT,N_RESULTAT);
+    void_matrix_dinit_rand(M2d, RAND_MAXIMUM,N_RESULTAT,K_RESULTAT);
+    void_matrix_dinit_rand(M3d, RAND_MAXIMUM,M_RESULTAT,K_RESULTAT);
+    printf("---- Avant :\n");
+    printf("M1d : "); matrix_print(M1d,TYPE_DOUBLE,MNCblasRowMajor,M_RESULTAT,N_RESULTAT);
+    printf("M2d : "); matrix_print(M2d,TYPE_DOUBLE,MNCblasRowMajor,N_RESULTAT,K_RESULTAT);
+    printf("M3d : "); matrix_print(M3d,TYPE_DOUBLE,MNCblasRowMajor,M_RESULTAT,K_RESULTAT);
+    mncblas_dgemm(MNCblasRowMajor,MNCblasNoTrans,MNCblasNoTrans,M_RESULTAT,N_RESULTAT,K_RESULTAT,2,M1d,1,M2d,1,2,M3d,1);
+    printf("---- Apres :\n");
+    printf("M3d : "); matrix_print(M3d,TYPE_DOUBLE,MNCblasRowMajor,M_RESULTAT,K_RESULTAT);
+
+    printf("<------------------------------------------>\n                   complexe_float_t\n");
+
+    printf("-------------------------- test 1 (M3c=2*M1c*M2c+2*M3c) (MNCblasRowMajor): \n");
+    void_matrix_cinit(M1c, gen_complexe_float(1,0),M_RESULTAT,N_RESULTAT);
+    void_matrix_cinit(M2c, gen_complexe_float(1,0),N_RESULTAT,K_RESULTAT);
+    void_matrix_cinit(M3c, gen_complexe_float(1,0),M_RESULTAT,K_RESULTAT);
+    printf("---- Avant :\n");
+    printf("M1c : "); matrix_print(M1c,TYPE_COMPLEXE_FLOAT,MNCblasRowMajor,M_RESULTAT,N_RESULTAT);
+    printf("M2c : "); matrix_print(M2c,TYPE_COMPLEXE_FLOAT,MNCblasRowMajor,N_RESULTAT,K_RESULTAT);
+    printf("M3c : "); matrix_print(M3c,TYPE_COMPLEXE_FLOAT,MNCblasRowMajor,M_RESULTAT,K_RESULTAT);
+    mncblas_cgemm(MNCblasRowMajor,MNCblasNoTrans,MNCblasNoTrans,M_RESULTAT,N_RESULTAT,K_RESULTAT,&tmpc,M1c,1,M2c,1,&tmpc,M3c,1);
+    printf("---- Apres :\n");
+    printf("M3c : "); matrix_print(M3c,TYPE_COMPLEXE_FLOAT,MNCblasRowMajor,M_RESULTAT,K_RESULTAT);
+    printf("-------------------------- test 1_bis (M3c=2*M1c*M2c+2*M3c) (MNCblasRowMajor): \n");
+    void_matrix_cinit(M1c, gen_complexe_float(0,1),M_RESULTAT,N_RESULTAT);
+    void_matrix_cinit(M2c, gen_complexe_float(0,1),N_RESULTAT,K_RESULTAT);
+    void_matrix_cinit(M3c, gen_complexe_float(0,1),M_RESULTAT,K_RESULTAT);
+    printf("---- Avant :\n");
+    printf("M1c : "); matrix_print(M1c,TYPE_COMPLEXE_FLOAT,MNCblasRowMajor,M_RESULTAT,N_RESULTAT);
+    printf("M2c : "); matrix_print(M2c,TYPE_COMPLEXE_FLOAT,MNCblasRowMajor,N_RESULTAT,K_RESULTAT);
+    printf("M3c : "); matrix_print(M3c,TYPE_COMPLEXE_FLOAT,MNCblasRowMajor,M_RESULTAT,K_RESULTAT);
+    mncblas_cgemm(MNCblasRowMajor,MNCblasNoTrans,MNCblasNoTrans,M_RESULTAT,N_RESULTAT,K_RESULTAT,&tmpc,M1c,1,M2c,1,&tmpc,M3c,1);
+    printf("---- Apres :\n");
+    printf("M3c : "); matrix_print(M3c,TYPE_COMPLEXE_FLOAT,MNCblasRowMajor,M_RESULTAT,K_RESULTAT);
+    printf("-------------------------- test 1_ter (M3c=2*M1c*M2c+2*M3c) (MNCblasRowMajor): \n");
+    void_matrix_cinit(M1c, gen_complexe_float(1,1),M_RESULTAT,N_RESULTAT);
+    void_matrix_cinit(M2c, gen_complexe_float(1,1),N_RESULTAT,K_RESULTAT);
+    void_matrix_cinit(M3c, gen_complexe_float(1,1),M_RESULTAT,K_RESULTAT);
+    printf("---- Avant :\n");
+    printf("M1c : "); matrix_print(M1c,TYPE_COMPLEXE_FLOAT,MNCblasRowMajor,M_RESULTAT,N_RESULTAT);
+    printf("M2c : "); matrix_print(M2c,TYPE_COMPLEXE_FLOAT,MNCblasRowMajor,N_RESULTAT,K_RESULTAT);
+    printf("M3c : "); matrix_print(M3c,TYPE_COMPLEXE_FLOAT,MNCblasRowMajor,M_RESULTAT,K_RESULTAT);
+    mncblas_cgemm(MNCblasRowMajor,MNCblasNoTrans,MNCblasNoTrans,M_RESULTAT,N_RESULTAT,K_RESULTAT,&tmpc,M1c,1,M2c,1,&tmpc,M3c,1);
+    printf("---- Apres :\n");
+    printf("M3c : "); matrix_print(M3c,TYPE_COMPLEXE_FLOAT,MNCblasRowMajor,M_RESULTAT,K_RESULTAT);
+    printf("-------------------------- test 3 (M3c=2*M1c*M2c+2*M3c) (MNCblasRowMajor): \n");
+    void_matrix_dinit_rand(M1c, RAND_MAXIMUM,M_RESULTAT,N_RESULTAT);
+    void_matrix_dinit_rand(M2c, RAND_MAXIMUM,N_RESULTAT,K_RESULTAT);
+    void_matrix_dinit_rand(M3c, RAND_MAXIMUM,M_RESULTAT,K_RESULTAT);
+    printf("---- Avant :\n");
+    printf("M1c : "); matrix_print(M1c,TYPE_DOUBLE,MNCblasRowMajor,M_RESULTAT,N_RESULTAT);
+    printf("M2c : "); matrix_print(M2c,TYPE_DOUBLE,MNCblasRowMajor,N_RESULTAT,K_RESULTAT);
+    printf("M3c : "); matrix_print(M3c,TYPE_DOUBLE,MNCblasRowMajor,M_RESULTAT,K_RESULTAT);
+    mncblas_cgemm(MNCblasRowMajor,MNCblasNoTrans,MNCblasNoTrans,M_RESULTAT,N_RESULTAT,K_RESULTAT,&tmpc,M1c,1,M2c,1,&tmpc,M3c,1);
+    printf("---- Apres :\n");
+    printf("M3c : "); matrix_print(M3c,TYPE_DOUBLE,MNCblasRowMajor,M_RESULTAT,K_RESULTAT);
+    
+    /*printf("-------------------------- test 2 (V2c=2*Mc*V1c+2*V2c) (MNCblasColMajor): \n");
+    void_matrix_cinit(Mc,gen_complexe_float(1,0),M_RESULTAT,N_RESULTAT);
+    void_vector_cinit(V1c, gen_complexe_float(1,0),N_RESULTAT);
+    void_vector_cinit(V2c, gen_complexe_float(2,0),M_RESULTAT);
+    printf("---- Avant :\n");
+    printf("Mc : "); matrix_print(Mc,TYPE_COMPLEXE_FLOAT,MNCblasColMajor,M_RESULTAT,N_RESULTAT);
+    printf("V1c : "); vector_print(V1c,TYPE_COMPLEXE_FLOAT,N_RESULTAT);
+    printf("V2c : "); vector_print(V2c,TYPE_COMPLEXE_FLOAT,M_RESULTAT);
+    mncblas_cgemv(MNCblasColMajor,MNCblasNoTrans,M_RESULTAT,N_RESULTAT,&tmpc,Mc,1,V1c,1,&tmpc,V2c,1);
+    printf("---- Apres :\n");
+    printf("V2c : "); vector_print(V2c,TYPE_COMPLEXE_FLOAT,M_RESULTAT);
+
+    printf("-------------------------- test 4 (V2c=2*Mc*V1c+2*V2c) (MNCblasColMajor): \n");
+    printf("---- Avant :\n");
+    row_to_col_major(TYPE_COMPLEXE_FLOAT,Mc,M_RESULTAT,N_RESULTAT);
+    printf("Mc : "); matrix_print(Mc,TYPE_COMPLEXE_FLOAT,MNCblasColMajor,M_RESULTAT,N_RESULTAT);
+    printf("V1c : "); vector_print(V1c,TYPE_COMPLEXE_FLOAT,N_RESULTAT);
+    printf("V2c : "); vector_print(V2c_copy,TYPE_COMPLEXE_FLOAT,M_RESULTAT);
+    mncblas_cgemv(MNCblasColMajor,MNCblasNoTrans,M_RESULTAT,N_RESULTAT,&tmpc,Mc,1,V1c,1,&tmpc,V2c_copy,1);
+    printf("---- Apres :\n");
+    printf("V2c : "); vector_print(V2c_copy,TYPE_COMPLEXE_FLOAT,M_RESULTAT);
+
+    // Trans :
+
+    printf("-------------------------- test 5 (V2c=2*Mc*V1c+2*V2c) (MNCblasRowMajor,MNCblasTrans): \n");
+    void_matrix_cinit(Mc,gen_complexe_float(1,0),M_RESULTAT,N_RESULTAT);
+    void_vector_cinit(V1c, gen_complexe_float(1,0),M_RESULTAT);
+    void_vector_cinit(V2c, gen_complexe_float(2,0),N_RESULTAT);
+    printf("---- Avant :\n");
+    printf("Mc : "); matrix_print(Mc,TYPE_COMPLEXE_FLOAT,MNCblasRowMajor,M_RESULTAT,N_RESULTAT);
+    printf("V1c : "); vector_print(V1c,TYPE_COMPLEXE_FLOAT,M_RESULTAT);
+    printf("V2c : "); vector_print(V2c,TYPE_COMPLEXE_FLOAT,N_RESULTAT);
+    mncblas_cgemv(MNCblasRowMajor,MNCblasTrans,M_RESULTAT,N_RESULTAT,&tmpc,Mc,1,V1c,1,&tmpc,V2c,1);
+    printf("---- Apres :\n");
+    printf("V2c : "); vector_print(V2c,TYPE_COMPLEXE_FLOAT,N_RESULTAT);
+    printf("-------------------------- test 6 (V2c=2*Mc*V1c+2*V2c) (MNCblasColMajor,MNCblasTrans): \n");
+    void_vector_cinit(V2c, gen_complexe_float(2,0),N_RESULTAT);
+    printf("---- Avant :\n");
+    printf("Mc : "); matrix_print(Mc,TYPE_COMPLEXE_FLOAT,MNCblasColMajor,M_RESULTAT,N_RESULTAT);
+    printf("V1c : "); vector_print(V1c,TYPE_COMPLEXE_FLOAT,M_RESULTAT);
+    printf("V2c : "); vector_print(V2c,TYPE_COMPLEXE_FLOAT,N_RESULTAT);
+    mncblas_cgemv(MNCblasColMajor,MNCblasTrans,M_RESULTAT,N_RESULTAT,&tmpc,Mc,1,V1c,1,&tmpc,V2c,1);
+    printf("---- Apres :\n");
+    printf("V2c : "); vector_print(V2c,TYPE_COMPLEXE_FLOAT,N_RESULTAT);
+
+
+    printf("-------------------------- test 7 (V2c=2*Mc*V1c+2*V2c) (MNCblasRowMajor,MNCblasTrans): \n");
+    void_matrix_cinit_rand(Mc,RAND_MAXIMUM,M_RESULTAT,N_RESULTAT);
+    void_vector_cinit_rand(V1c, RAND_MAXIMUM,M_RESULTAT);
+    void_vector_cinit_rand(V2c, RAND_MAXIMUM,N_RESULTAT);
+    mncblas_ccopy(N_RESULTAT,V2c,1,V2c_copy,1);
+    printf("---- Avant :\n");
+    printf("Mc : "); matrix_print(Mc,TYPE_COMPLEXE_FLOAT,MNCblasRowMajor,M_RESULTAT,N_RESULTAT);
+    printf("V1c : "); vector_print(V1c,TYPE_COMPLEXE_FLOAT,M_RESULTAT);
+    printf("V2c : "); vector_print(V2c,TYPE_COMPLEXE_FLOAT,N_RESULTAT);
+    mncblas_cgemv(MNCblasRowMajor,MNCblasTrans,M_RESULTAT,N_RESULTAT,&tmpc,Mc,1,V1c,1,&tmpc,V2c,1);
+    printf("---- Apres :\n");
+    printf("V2c : "); vector_print(V2c,TYPE_COMPLEXE_FLOAT,N_RESULTAT);
+    printf("-------------------------- test 8 (V2c=2*Mc*V1c+2*V2c) (MNCblasColMajor,MNCblasTrans): \n");
+    printf("---- Avant :\n");
+    row_to_col_major(TYPE_COMPLEXE_FLOAT,Mc,M_RESULTAT,N_RESULTAT);
+    printf("Mc : "); matrix_print(Mc,TYPE_COMPLEXE_FLOAT,MNCblasColMajor,M_RESULTAT,N_RESULTAT);
+    printf("V1c : "); vector_print(V1c,TYPE_COMPLEXE_FLOAT,M_RESULTAT);
+    printf("V2c : "); vector_print(V2c_copy,TYPE_COMPLEXE_FLOAT,N_RESULTAT);
+    mncblas_cgemv(MNCblasColMajor,MNCblasTrans,M_RESULTAT,N_RESULTAT,&tmpc,Mc,1,V1c,1,&tmpc,V2c_copy,1);
+    printf("---- Apres :\n");
+    printf("V2c : "); vector_print(V2c_copy,TYPE_COMPLEXE_FLOAT,N_RESULTAT);*/
+
+    printf("<------------------------------------------>\n                   complexe_double_t\n");
+
+    printf("-------------------------- test 1 (M3z=2*M1z*M2z+2*M3z) (MNCblasRowMajor): \n");
+    void_matrix_zinit(M1z, gen_complexe_double(1,0),M_RESULTAT,N_RESULTAT);
+    void_matrix_zinit(M2z, gen_complexe_double(1,0),N_RESULTAT,K_RESULTAT);
+    void_matrix_zinit(M3z, gen_complexe_double(1,0),M_RESULTAT,K_RESULTAT);
+    printf("---- Avant :\n");
+    printf("M1z : "); matrix_print(M1z,TYPE_COMPLEXE_DOUBLE,MNCblasRowMajor,M_RESULTAT,N_RESULTAT);
+    printf("M2z : "); matrix_print(M2z,TYPE_COMPLEXE_DOUBLE,MNCblasRowMajor,N_RESULTAT,K_RESULTAT);
+    printf("M3z : "); matrix_print(M3z,TYPE_COMPLEXE_DOUBLE,MNCblasRowMajor,M_RESULTAT,K_RESULTAT);
+    mncblas_zgemm(MNCblasRowMajor,MNCblasNoTrans,MNCblasNoTrans,M_RESULTAT,N_RESULTAT,K_RESULTAT,&tmpz,M1z,1,M2z,1,&tmpz,M3z,1);
+    printf("---- Apres :\n");
+    printf("M3z : "); matrix_print(M3z,TYPE_COMPLEXE_DOUBLE,MNCblasRowMajor,M_RESULTAT,K_RESULTAT);
+    printf("-------------------------- test 1_bis (M3z=2*M1z*M2z+2*M3z) (MNCblasRowMajor): \n");
+    void_matrix_zinit(M1z, gen_complexe_double(0,1),M_RESULTAT,N_RESULTAT);
+    void_matrix_zinit(M2z, gen_complexe_double(0,1),N_RESULTAT,K_RESULTAT);
+    void_matrix_zinit(M3z, gen_complexe_double(0,1),M_RESULTAT,K_RESULTAT);
+    printf("---- Avant :\n");
+    printf("M1z : "); matrix_print(M1z,TYPE_COMPLEXE_DOUBLE,MNCblasRowMajor,M_RESULTAT,N_RESULTAT);
+    printf("M2z : "); matrix_print(M2z,TYPE_COMPLEXE_DOUBLE,MNCblasRowMajor,N_RESULTAT,K_RESULTAT);
+    printf("M3z : "); matrix_print(M3z,TYPE_COMPLEXE_DOUBLE,MNCblasRowMajor,M_RESULTAT,K_RESULTAT);
+    mncblas_zgemm(MNCblasRowMajor,MNCblasNoTrans,MNCblasNoTrans,M_RESULTAT,N_RESULTAT,K_RESULTAT,&tmpz,M1z,1,M2z,1,&tmpz,M3z,1);
+    printf("---- Apres :\n");
+    printf("M3z : "); matrix_print(M3z,TYPE_COMPLEXE_DOUBLE,MNCblasRowMajor,M_RESULTAT,K_RESULTAT);
+    printf("-------------------------- test 1_ter (M3z=2*M1z*M2z+2*M3z) (MNCblasRowMajor): \n");
+    void_matrix_zinit(M1z, gen_complexe_double(1,1),M_RESULTAT,N_RESULTAT);
+    void_matrix_zinit(M2z, gen_complexe_double(1,1),N_RESULTAT,K_RESULTAT);
+    void_matrix_zinit(M3z, gen_complexe_double(1,1),M_RESULTAT,K_RESULTAT);
+    printf("---- Avant :\n");
+    printf("M1z : "); matrix_print(M1z,TYPE_COMPLEXE_DOUBLE,MNCblasRowMajor,M_RESULTAT,N_RESULTAT);
+    printf("M2z : "); matrix_print(M2z,TYPE_COMPLEXE_DOUBLE,MNCblasRowMajor,N_RESULTAT,K_RESULTAT);
+    printf("M3z : "); matrix_print(M3z,TYPE_COMPLEXE_DOUBLE,MNCblasRowMajor,M_RESULTAT,K_RESULTAT);
+    mncblas_zgemm(MNCblasRowMajor,MNCblasNoTrans,MNCblasNoTrans,M_RESULTAT,N_RESULTAT,K_RESULTAT,&tmpz,M1z,1,M2z,1,&tmpz,M3z,1);
+    printf("---- Apres :\n");
+    printf("M3z : "); matrix_print(M3z,TYPE_COMPLEXE_DOUBLE,MNCblasRowMajor,M_RESULTAT,K_RESULTAT);
+    printf("-------------------------- test 3 (M3z=2*M1z*M2z+2*M3z) (MNCblasRowMajor): \n");
+    void_matrix_dinit_rand(M1z, RAND_MAXIMUM,M_RESULTAT,N_RESULTAT);
+    void_matrix_dinit_rand(M2z, RAND_MAXIMUM,N_RESULTAT,K_RESULTAT);
+    void_matrix_dinit_rand(M3z, RAND_MAXIMUM,M_RESULTAT,K_RESULTAT);
+    printf("---- Avant :\n");
+    printf("M1z : "); matrix_print(M1z,TYPE_DOUBLE,MNCblasRowMajor,M_RESULTAT,N_RESULTAT);
+    printf("M2z : "); matrix_print(M2z,TYPE_DOUBLE,MNCblasRowMajor,N_RESULTAT,K_RESULTAT);
+    printf("M3z : "); matrix_print(M3z,TYPE_DOUBLE,MNCblasRowMajor,M_RESULTAT,K_RESULTAT);
+    mncblas_zgemm(MNCblasRowMajor,MNCblasNoTrans,MNCblasNoTrans,M_RESULTAT,N_RESULTAT,K_RESULTAT,&tmpz,M1z,1,M2z,1,&tmpz,M3z,1);
+    printf("---- Apres :\n");
+    printf("M3z : "); matrix_print(M3z,TYPE_DOUBLE,MNCblasRowMajor,M_RESULTAT,K_RESULTAT);
+
+
+
+
+
+
+    free_vm(M1s);
+    free_vm(M2s);
+    free_vm(M3s);
+    free_vm(M3s_copy);
+    free_vm(M1d);
+    free_vm(M2d);
+    free_vm(M3d);
+    free_vm(M3d_copy);
+    free_vm(M1c);
+    free_vm(M2c);
+    free_vm(M3c);
+    free_vm(M3c_copy);
+    free_vm(M1z);
+    free_vm(M2z);
+    free_vm(M3z);
+    free_vm(M3z_copy);
+
+    #define M_FLOPS    100
+    #define N_FLOPS    100
+    #define K_FLOPS    100
+    #define NB_EXPE     10
+    #define NB_OPE_REEL 1 // ??
+    #define NB_OPE_COMPLEXE 2 // ??
+
+
+    M1s = (float*)malloc(M_RESULTAT*N_RESULTAT*sizeof(float));
+    M2s = (float*)malloc(N_RESULTAT*K_RESULTAT*sizeof(float));
+    M3s = (float*)malloc(M_RESULTAT*K_RESULTAT*sizeof(float));
+    M1d = (double*)malloc(M_RESULTAT*N_RESULTAT*sizeof(double));
+    M2d = (double*)malloc(N_RESULTAT*K_RESULTAT*sizeof(double));
+    M3d = (double*)malloc(M_RESULTAT*K_RESULTAT*sizeof(double));
+    M1c = (complexe_float_t*)malloc(M_RESULTAT*N_RESULTAT*sizeof(complexe_float_t));
+    M2c = (complexe_float_t*)malloc(N_RESULTAT*K_RESULTAT*sizeof(complexe_float_t));
+    M3c = (complexe_float_t*)malloc(M_RESULTAT*K_RESULTAT*sizeof(complexe_float_t));
+    M1z = (complexe_double_t*)malloc(M_RESULTAT*N_RESULTAT*sizeof(complexe_double_t));
+    M2z = (complexe_double_t*)malloc(N_RESULTAT*K_RESULTAT*sizeof(complexe_double_t));
+    M3z = (complexe_double_t*)malloc(M_RESULTAT*K_RESULTAT*sizeof(complexe_double_t));
+
+
+    printf("||||||||||||||||||||||||||||||||||||||||||||||||||||||||\n                  2 : FLOPS\n <-------------------------------------------------->\n");
+    unsigned long long int start, end ; 
+    printf("<--------------------------------------------------------------->\n                      float sur NB_EXPE\n");
+    start = _rdtsc();
+    for(int i = 0; i < NB_EXPE; i++) {
+        mncblas_sgemm(MNCblasRowMajor,MNCblasNoTrans,MNCblasNoTrans,M_FLOPS,N_FLOPS,K_FLOPS,2,M1s,1,M2s,1,2,M3s,1);
+    }
+    end = _rdtsc();
+    calcul_flop("mncblas_sgemm : ", NB_EXPE*NB_OPE_REEL*M_FLOPS*N_FLOPS*K_FLOPS ,end-start);
+    printf("<--------------------------------------------------------------->\n                      double sur NB_EXPE\n");
+    start = _rdtsc();
+    for(int i = 0; i < NB_EXPE; i++) {
+        mncblas_dgemm(MNCblasRowMajor,MNCblasNoTrans,MNCblasNoTrans,M_FLOPS,N_FLOPS,K_FLOPS,2,M1d,1,M2d,1,2,M3d,1);
+    }
+    end = _rdtsc();
+    calcul_flop("mncblas_dgemm : ", NB_EXPE*NB_OPE_REEL*M_FLOPS*N_FLOPS*K_FLOPS ,end-start);
+    printf("<--------------------------------------------------------------->\n                      complexe_float_t sur NB_EXPE\n");
+    start = _rdtsc();
+    for(int i = 0; i < NB_EXPE; i++) {
+        mncblas_cgemm(MNCblasRowMajor,MNCblasNoTrans,MNCblasNoTrans,M_FLOPS,N_FLOPS,K_FLOPS,&tmpc,M1c,1,M2c,1,&tmpc,M3c,1);
+    }
+    end = _rdtsc();
+    calcul_flop("mncblas_cgemm : ", NB_EXPE*NB_OPE_COMPLEXE*M_FLOPS*N_FLOPS*K_FLOPS ,end-start);
+    printf("<--------------------------------------------------------------->\n                      complexe_double_t sur NB_EXPE\n");
+    start = _rdtsc();
+    for(int i = 0; i < NB_EXPE; i++) {
+        mncblas_zgemm(MNCblasRowMajor,MNCblasNoTrans,MNCblasNoTrans,M_FLOPS,N_FLOPS,K_FLOPS,&tmpz,M1z,1,M2z,1,&tmpz,M3z,1);
+    }
+    end = _rdtsc();
+    calcul_flop("mncblas_zgemm : ", NB_EXPE*NB_OPE_COMPLEXE*M_FLOPS*N_FLOPS*K_FLOPS ,end-start);
+
+
+    // free_vm(M1s);
+    // free_vm(M2s);
+    // free_vm(M3s);
+    // free_vm(M1d);
+    // free_vm(M2d);
+    // free_vm(M3d);
+    // free_vm(M1c);
+    // free_vm(M2c);
+    // free_vm(M3c);
+    // free_vm(M1z);
+    // free_vm(M2z);
+    // free_vm(M3z);
+}

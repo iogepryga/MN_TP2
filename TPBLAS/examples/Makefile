@@ -1,4 +1,4 @@
-all: test_complexe2 test_complexe test_dot test_dot_dyn test_copy test_axpy test_asum test_iamin test_iamax test_nrm2 test_gemv
+all: test_complexe2 test_complexe test_dot test_dot_dyn test_copy test_axpy test_asum test_iamin test_iamax test_nrm2 test_gemv test_gemm
 
 INC_DIR=../include
 

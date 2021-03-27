@@ -34,13 +34,13 @@ int main (int argc, char **argv) {
     
     
     
-    complexe_float_t tmpc; tmpc.real = 2; tmpc.imaginary = 0;
-    complexe_double_t tmpz; tmpz.real = 2; tmpz.imaginary = 0;
+    complexe_float_t tmpc = gen_complexe_float(2,0);
+    complexe_double_t tmpz = gen_complexe_double(2,0);
 
     
 
 
-    printf("                   TEST_GEMV\n|||||||||||||||||||||||||||||||||||||||||||||||||||||\n                           1: TEST DE BON RESULTAT\n<------------------------------------------>\n                   float\n");
+    printf("                   TEST_GEMM\n|||||||||||||||||||||||||||||||||||||||||||||||||||||\n                           1: TEST DE BON RESULTAT\n<------------------------------------------>\n                   float\n");
     printf("-------------------------- test 1 (V2s=2*Ms*V1s+2*V2s) (MNCblasRowMajor): \n");
     void_matrix_sinit(Ms,1,M_RESULTAT,N_RESULTAT);
     void_vector_sinit(V1s, 1,N_RESULTAT);
@@ -223,59 +223,240 @@ int main (int argc, char **argv) {
     printf("---- Apres :\n");
     printf("V2d : "); vector_print(V2d_copy,TYPE_DOUBLE,N_RESULTAT);
 
-/*
+
 
     printf("<------------------------------------------>\n                   complexe_float_t\n");
 
-    printf("---------- test 1 (V2d=2*V1d+V2d): \n");
-    void_vector_cinit(V1c, gen_complexe_float(1,0),VECSIZE_RESULTAT);
-    void_vector_cinit2(V2c,2,0,VECSIZE_RESULTAT);
+    printf("-------------------------- test 1 (V2c=2*Mc*V1c+2*V2c) (MNCblasRowMajor): \n");
+    void_matrix_cinit(Mc,gen_complexe_float(1,0),M_RESULTAT,N_RESULTAT);
+    void_vector_cinit(V1c, gen_complexe_float(1,0),N_RESULTAT);
+    void_vector_cinit(V2c, gen_complexe_float(2,0),M_RESULTAT);
     printf("---- Avant :\n");
-    printf("V1c : "); vector_print(V1c,TYPE_COMPLEXE_FLOAT,VECSIZE_RESULTAT);
-    printf("V2c : "); vector_print(V2c,TYPE_COMPLEXE_FLOAT,VECSIZE_RESULTAT);
-    mnblas_caxpy(VECSIZE_RESULTAT,&tmpc,V1c,1,V2c,1);
+    printf("Mc : "); matrix_print(Mc,TYPE_COMPLEXE_FLOAT,MNCblasRowMajor,M_RESULTAT,N_RESULTAT);
+    printf("V1c : "); vector_print(V1c,TYPE_COMPLEXE_FLOAT,N_RESULTAT);
+    printf("V2c : "); vector_print(V2c,TYPE_COMPLEXE_FLOAT,M_RESULTAT);
+    mncblas_cgemv(MNCblasRowMajor,MNCblasNoTrans,M_RESULTAT,N_RESULTAT,&tmpc,Mc,1,V1c,1,&tmpc,V2c,1);
     printf("---- Apres :\n");
-    printf("V1c : "); vector_print(V1c,TYPE_COMPLEXE_FLOAT,VECSIZE_RESULTAT);
-    printf("V2c : "); vector_print(V2c,TYPE_COMPLEXE_FLOAT,VECSIZE_RESULTAT);
-    printf("---------- test 2 (V2d=2*V1d+V2d): \n");
-    void_vector_cinit_rand(V1c, RAND_MAXIMUM,VECSIZE_RESULTAT);
-    void_vector_cinit_rand(V2c, RAND_MAXIMUM,VECSIZE_RESULTAT);
+    printf("V2c : "); vector_print(V2c,TYPE_COMPLEXE_FLOAT,M_RESULTAT);
+    printf("-------------------------- test 1_bis (V2c=2*Mc*V1c+2*V2c) (MNCblasRowMajor): \n");
+    void_matrix_cinit(Mc,gen_complexe_float(0,1),M_RESULTAT,N_RESULTAT);
+    void_vector_cinit(V1c, gen_complexe_float(0,1),N_RESULTAT);
+    void_vector_cinit(V2c, gen_complexe_float(0,2),M_RESULTAT);
     printf("---- Avant :\n");
-    V1c[VECSIZE_RESULTAT-1] = gen_complexe_float(0,0);
-    V2c[VECSIZE_RESULTAT-1] = gen_complexe_float(1,0);
-    printf("V1c : "); vector_print(V1c,TYPE_COMPLEXE_FLOAT,VECSIZE_RESULTAT);
-    printf("V2c : "); vector_print(V2c,TYPE_COMPLEXE_FLOAT,VECSIZE_RESULTAT);
-    mnblas_caxpy(VECSIZE_RESULTAT,&tmpc,V1c,1,V2c,1);
+    printf("Mc : "); matrix_print(Mc,TYPE_COMPLEXE_FLOAT,MNCblasRowMajor,M_RESULTAT,N_RESULTAT);
+    printf("V1c : "); vector_print(V1c,TYPE_COMPLEXE_FLOAT,N_RESULTAT);
+    printf("V2c : "); vector_print(V2c,TYPE_COMPLEXE_FLOAT,M_RESULTAT);
+    mncblas_cgemv(MNCblasRowMajor,MNCblasNoTrans,M_RESULTAT,N_RESULTAT,&tmpc,Mc,1,V1c,1,&tmpc,V2c,1);
     printf("---- Apres :\n");
-    printf("V1c : "); vector_print(V1c,TYPE_COMPLEXE_FLOAT,VECSIZE_RESULTAT);
-    printf("V2c : "); vector_print(V2c,TYPE_COMPLEXE_FLOAT,VECSIZE_RESULTAT);
+    printf("V2c : "); vector_print(V2c,TYPE_COMPLEXE_FLOAT,M_RESULTAT);
+    printf("-------------------------- test 1_ter (V2c=2*Mc*V1c+2*V2c) (MNCblasRowMajor): \n");
+    void_matrix_cinit(Mc,gen_complexe_float(1,1),M_RESULTAT,N_RESULTAT);
+    void_vector_cinit(V1c, gen_complexe_float(1,1),N_RESULTAT);
+    void_vector_cinit(V2c, gen_complexe_float(2,2),M_RESULTAT);
+    printf("---- Avant :\n");
+    printf("Mc : "); matrix_print(Mc,TYPE_COMPLEXE_FLOAT,MNCblasRowMajor,M_RESULTAT,N_RESULTAT);
+    printf("V1c : "); vector_print(V1c,TYPE_COMPLEXE_FLOAT,N_RESULTAT);
+    printf("V2c : "); vector_print(V2c,TYPE_COMPLEXE_FLOAT,M_RESULTAT);
+    mncblas_cgemv(MNCblasRowMajor,MNCblasNoTrans,M_RESULTAT,N_RESULTAT,&tmpc,Mc,1,V1c,1,&tmpc,V2c,1);
+    printf("---- Apres :\n");
+    printf("V2c : "); vector_print(V2c,TYPE_COMPLEXE_FLOAT,M_RESULTAT);
+    printf("-------------------------- test 2 (V2c=2*Mc*V1c+2*V2c) (MNCblasColMajor): \n");
+    void_matrix_cinit(Mc,gen_complexe_float(1,0),M_RESULTAT,N_RESULTAT);
+    void_vector_cinit(V1c, gen_complexe_float(1,0),N_RESULTAT);
+    void_vector_cinit(V2c, gen_complexe_float(2,0),M_RESULTAT);
+    printf("---- Avant :\n");
+    printf("Mc : "); matrix_print(Mc,TYPE_COMPLEXE_FLOAT,MNCblasColMajor,M_RESULTAT,N_RESULTAT);
+    printf("V1c : "); vector_print(V1c,TYPE_COMPLEXE_FLOAT,N_RESULTAT);
+    printf("V2c : "); vector_print(V2c,TYPE_COMPLEXE_FLOAT,M_RESULTAT);
+    mncblas_cgemv(MNCblasColMajor,MNCblasNoTrans,M_RESULTAT,N_RESULTAT,&tmpc,Mc,1,V1c,1,&tmpc,V2c,1);
+    printf("---- Apres :\n");
+    printf("V2c : "); vector_print(V2c,TYPE_COMPLEXE_FLOAT,M_RESULTAT);
+
+
+    printf("-------------------------- test 3 (V2c=2*Mc*V1c+2*V2c) (MNCblasRowMajor): \n");
+    void_matrix_cinit_rand(Mc,RAND_MAXIMUM,M_RESULTAT,N_RESULTAT);
+    void_vector_cinit_rand(V1c, RAND_MAXIMUM,N_RESULTAT);
+    void_vector_cinit_rand(V2c, RAND_MAXIMUM,M_RESULTAT);
+    mncblas_ccopy(M_RESULTAT,V2c,1,V2c_copy,1);
+    printf("---- Avant :\n");
+    printf("Mc : "); matrix_print(Mc,TYPE_COMPLEXE_FLOAT,MNCblasRowMajor,M_RESULTAT,N_RESULTAT);
+    printf("V1c : "); vector_print(V1c,TYPE_COMPLEXE_FLOAT,N_RESULTAT);
+    printf("V2c : "); vector_print(V2c,TYPE_COMPLEXE_FLOAT,M_RESULTAT);
+    mncblas_cgemv(MNCblasRowMajor,MNCblasNoTrans,M_RESULTAT,N_RESULTAT,&tmpc,Mc,1,V1c,1,&tmpc,V2c,1);
+    printf("---- Apres :\n");
+    printf("V2c : "); vector_print(V2c,TYPE_COMPLEXE_FLOAT,M_RESULTAT);
+    printf("-------------------------- test 4 (V2c=2*Mc*V1c+2*V2c) (MNCblasColMajor): \n");
+    printf("---- Avant :\n");
+    row_to_col_major(TYPE_COMPLEXE_FLOAT,Mc,M_RESULTAT,N_RESULTAT);
+    printf("Mc : "); matrix_print(Mc,TYPE_COMPLEXE_FLOAT,MNCblasColMajor,M_RESULTAT,N_RESULTAT);
+    printf("V1c : "); vector_print(V1c,TYPE_COMPLEXE_FLOAT,N_RESULTAT);
+    printf("V2c : "); vector_print(V2c_copy,TYPE_COMPLEXE_FLOAT,M_RESULTAT);
+    mncblas_cgemv(MNCblasColMajor,MNCblasNoTrans,M_RESULTAT,N_RESULTAT,&tmpc,Mc,1,V1c,1,&tmpc,V2c_copy,1);
+    printf("---- Apres :\n");
+    printf("V2c : "); vector_print(V2c_copy,TYPE_COMPLEXE_FLOAT,M_RESULTAT);
+
+    // Trans :
+
+    printf("-------------------------- test 5 (V2c=2*Mc*V1c+2*V2c) (MNCblasRowMajor,MNCblasTrans): \n");
+    void_matrix_cinit(Mc,gen_complexe_float(1,0),M_RESULTAT,N_RESULTAT);
+    void_vector_cinit(V1c, gen_complexe_float(1,0),M_RESULTAT);
+    void_vector_cinit(V2c, gen_complexe_float(2,0),N_RESULTAT);
+    printf("---- Avant :\n");
+    printf("Mc : "); matrix_print(Mc,TYPE_COMPLEXE_FLOAT,MNCblasRowMajor,M_RESULTAT,N_RESULTAT);
+    printf("V1c : "); vector_print(V1c,TYPE_COMPLEXE_FLOAT,M_RESULTAT);
+    printf("V2c : "); vector_print(V2c,TYPE_COMPLEXE_FLOAT,N_RESULTAT);
+    mncblas_cgemv(MNCblasRowMajor,MNCblasTrans,M_RESULTAT,N_RESULTAT,&tmpc,Mc,1,V1c,1,&tmpc,V2c,1);
+    printf("---- Apres :\n");
+    printf("V2c : "); vector_print(V2c,TYPE_COMPLEXE_FLOAT,N_RESULTAT);
+    printf("-------------------------- test 6 (V2c=2*Mc*V1c+2*V2c) (MNCblasColMajor,MNCblasTrans): \n");
+    void_vector_cinit(V2c, gen_complexe_float(2,0),N_RESULTAT);
+    printf("---- Avant :\n");
+    printf("Mc : "); matrix_print(Mc,TYPE_COMPLEXE_FLOAT,MNCblasColMajor,M_RESULTAT,N_RESULTAT);
+    printf("V1c : "); vector_print(V1c,TYPE_COMPLEXE_FLOAT,M_RESULTAT);
+    printf("V2c : "); vector_print(V2c,TYPE_COMPLEXE_FLOAT,N_RESULTAT);
+    mncblas_cgemv(MNCblasColMajor,MNCblasTrans,M_RESULTAT,N_RESULTAT,&tmpc,Mc,1,V1c,1,&tmpc,V2c,1);
+    printf("---- Apres :\n");
+    printf("V2c : "); vector_print(V2c,TYPE_COMPLEXE_FLOAT,N_RESULTAT);
+
+
+    printf("-------------------------- test 7 (V2c=2*Mc*V1c+2*V2c) (MNCblasRowMajor,MNCblasTrans): \n");
+    void_matrix_cinit_rand(Mc,RAND_MAXIMUM,M_RESULTAT,N_RESULTAT);
+    void_vector_cinit_rand(V1c, RAND_MAXIMUM,M_RESULTAT);
+    void_vector_cinit_rand(V2c, RAND_MAXIMUM,N_RESULTAT);
+    mncblas_ccopy(N_RESULTAT,V2c,1,V2c_copy,1);
+    printf("---- Avant :\n");
+    printf("Mc : "); matrix_print(Mc,TYPE_COMPLEXE_FLOAT,MNCblasRowMajor,M_RESULTAT,N_RESULTAT);
+    printf("V1c : "); vector_print(V1c,TYPE_COMPLEXE_FLOAT,M_RESULTAT);
+    printf("V2c : "); vector_print(V2c,TYPE_COMPLEXE_FLOAT,N_RESULTAT);
+    mncblas_cgemv(MNCblasRowMajor,MNCblasTrans,M_RESULTAT,N_RESULTAT,&tmpc,Mc,1,V1c,1,&tmpc,V2c,1);
+    printf("---- Apres :\n");
+    printf("V2c : "); vector_print(V2c,TYPE_COMPLEXE_FLOAT,N_RESULTAT);
+    printf("-------------------------- test 8 (V2c=2*Mc*V1c+2*V2c) (MNCblasColMajor,MNCblasTrans): \n");
+    printf("---- Avant :\n");
+    row_to_col_major(TYPE_COMPLEXE_FLOAT,Mc,M_RESULTAT,N_RESULTAT);
+    printf("Mc : "); matrix_print(Mc,TYPE_COMPLEXE_FLOAT,MNCblasColMajor,M_RESULTAT,N_RESULTAT);
+    printf("V1c : "); vector_print(V1c,TYPE_COMPLEXE_FLOAT,M_RESULTAT);
+    printf("V2c : "); vector_print(V2c_copy,TYPE_COMPLEXE_FLOAT,N_RESULTAT);
+    mncblas_cgemv(MNCblasColMajor,MNCblasTrans,M_RESULTAT,N_RESULTAT,&tmpc,Mc,1,V1c,1,&tmpc,V2c_copy,1);
+    printf("---- Apres :\n");
+    printf("V2c : "); vector_print(V2c_copy,TYPE_COMPLEXE_FLOAT,N_RESULTAT);
 
     printf("<------------------------------------------>\n                   complexe_double_t\n");
 
-    printf("---------- test 1 (V2d=2*V1d+V2d): \n");
-    void_vector_zinit(V1z, gen_complexe_double(1,0),VECSIZE_RESULTAT);
-    void_vector_zinit2(V2z,2,0,VECSIZE_RESULTAT);
+    printf("-------------------------- test 1 (V2z=2*Mz*V1z+2*V2z) (MNCblasRowMajor): \n");
+    void_matrix_zinit(Mz,gen_complexe_double(1,0),M_RESULTAT,N_RESULTAT);
+    void_vector_zinit(V1z, gen_complexe_double(1,0),N_RESULTAT);
+    void_vector_zinit(V2z, gen_complexe_double(2,0),M_RESULTAT);
     printf("---- Avant :\n");
-    printf("V1z : "); vector_print(V1z,TYPE_COMPLEXE_DOUBLE,VECSIZE_RESULTAT);
-    printf("V2z : "); vector_print(V2z,TYPE_COMPLEXE_DOUBLE,VECSIZE_RESULTAT);
-    mnblas_zaxpy(VECSIZE_RESULTAT,&tmpz,V1z,1,V2z,1);
+    printf("Mz : "); matrix_print(Mz,TYPE_COMPLEXE_DOUBLE,MNCblasRowMajor,M_RESULTAT,N_RESULTAT);
+    printf("V1z : "); vector_print(V1z,TYPE_COMPLEXE_DOUBLE,N_RESULTAT);
+    printf("V2z : "); vector_print(V2z,TYPE_COMPLEXE_DOUBLE,M_RESULTAT);
+    mncblas_zgemv(MNCblasRowMajor,MNCblasNoTrans,M_RESULTAT,N_RESULTAT,&tmpz,Mz,1,V1z,1,&tmpz,V2z,1);
     printf("---- Apres :\n");
-    printf("V1z : "); vector_print(V1z,TYPE_COMPLEXE_DOUBLE,VECSIZE_RESULTAT);
-    printf("V2z : "); vector_print(V2z,TYPE_COMPLEXE_DOUBLE,VECSIZE_RESULTAT);
-    printf("---------- test 2 (V2d=2*V1d+V2d): \n");
-    void_vector_zinit_rand(V1z, RAND_MAXIMUM,VECSIZE_RESULTAT);
-    void_vector_zinit_rand(V2z, RAND_MAXIMUM,VECSIZE_RESULTAT);
+    printf("V2z : "); vector_print(V2z,TYPE_COMPLEXE_DOUBLE,M_RESULTAT);
+    printf("-------------------------- test 1_bis (V2z=2*Mz*V1z+2*V2z) (MNCblasRowMajor): \n");
+    void_matrix_zinit(Mz,gen_complexe_double(0,1),M_RESULTAT,N_RESULTAT);
+    void_vector_zinit(V1z, gen_complexe_double(0,1),N_RESULTAT);
+    void_vector_zinit(V2z, gen_complexe_double(0,2),M_RESULTAT);
     printf("---- Avant :\n");
-    V1z[VECSIZE_RESULTAT-1] = gen_complexe_double(0,0);
-    V2z[VECSIZE_RESULTAT-1] = gen_complexe_double(1,0);
-    printf("V1z : "); vector_print(V1z,TYPE_COMPLEXE_DOUBLE,VECSIZE_RESULTAT);
-    printf("V2z : "); vector_print(V2z,TYPE_COMPLEXE_DOUBLE,VECSIZE_RESULTAT);
-    mnblas_zaxpy(VECSIZE_RESULTAT,&tmpz,V1z,1,V2z,1);
+    printf("Mz : "); matrix_print(Mz,TYPE_COMPLEXE_DOUBLE,MNCblasRowMajor,M_RESULTAT,N_RESULTAT);
+    printf("V1z : "); vector_print(V1z,TYPE_COMPLEXE_DOUBLE,N_RESULTAT);
+    printf("V2z : "); vector_print(V2z,TYPE_COMPLEXE_DOUBLE,M_RESULTAT);
+    mncblas_zgemv(MNCblasRowMajor,MNCblasNoTrans,M_RESULTAT,N_RESULTAT,&tmpz,Mz,1,V1z,1,&tmpz,V2z,1);
     printf("---- Apres :\n");
-    printf("V1z : "); vector_print(V1z,TYPE_COMPLEXE_DOUBLE,VECSIZE_RESULTAT);
-    printf("V2z : "); vector_print(V2z,TYPE_COMPLEXE_DOUBLE,VECSIZE_RESULTAT);
+    printf("V2z : "); vector_print(V2z,TYPE_COMPLEXE_DOUBLE,M_RESULTAT);
+    printf("-------------------------- test 1_ter (V2z=2*Mz*V1z+2*V2z) (MNCblasRowMajor): \n");
+    void_matrix_zinit(Mz,gen_complexe_double(1,1),M_RESULTAT,N_RESULTAT);
+    void_vector_zinit(V1z, gen_complexe_double(1,1),N_RESULTAT);
+    void_vector_zinit(V2z, gen_complexe_double(2,2),M_RESULTAT);
+    printf("---- Avant :\n");
+    printf("Mz : "); matrix_print(Mz,TYPE_COMPLEXE_DOUBLE,MNCblasRowMajor,M_RESULTAT,N_RESULTAT);
+    printf("V1z : "); vector_print(V1z,TYPE_COMPLEXE_DOUBLE,N_RESULTAT);
+    printf("V2z : "); vector_print(V2z,TYPE_COMPLEXE_DOUBLE,M_RESULTAT);
+    mncblas_zgemv(MNCblasRowMajor,MNCblasNoTrans,M_RESULTAT,N_RESULTAT,&tmpz,Mz,1,V1z,1,&tmpz,V2z,1);
+    printf("---- Apres :\n");
+    printf("V2z : "); vector_print(V2z,TYPE_COMPLEXE_DOUBLE,M_RESULTAT);
+    printf("-------------------------- test 2 (V2z=2*Mz*V1z+2*V2z) (MNCblasColMajor): \n");
+    void_matrix_zinit(Mz,gen_complexe_double(1,0),M_RESULTAT,N_RESULTAT);
+    void_vector_zinit(V1z, gen_complexe_double(1,0),N_RESULTAT);
+    void_vector_zinit(V2z, gen_complexe_double(2,0),M_RESULTAT);
+    printf("---- Avant :\n");
+    printf("Mz : "); matrix_print(Mz,TYPE_COMPLEXE_DOUBLE,MNCblasColMajor,M_RESULTAT,N_RESULTAT);
+    printf("V1z : "); vector_print(V1z,TYPE_COMPLEXE_DOUBLE,N_RESULTAT);
+    printf("V2z : "); vector_print(V2z,TYPE_COMPLEXE_DOUBLE,M_RESULTAT);
+    mncblas_zgemv(MNCblasColMajor,MNCblasNoTrans,M_RESULTAT,N_RESULTAT,&tmpz,Mz,1,V1z,1,&tmpz,V2z,1);
+    printf("---- Apres :\n");
+    printf("V2z : "); vector_print(V2z,TYPE_COMPLEXE_DOUBLE,M_RESULTAT);
 
-*/
+
+    printf("-------------------------- test 3 (V2z=2*Mz*V1z+2*V2z) (MNCblasRowMajor): \n");
+    void_matrix_zinit_rand(Mz,RAND_MAXIMUM,M_RESULTAT,N_RESULTAT);
+    void_vector_zinit_rand(V1z, RAND_MAXIMUM,N_RESULTAT);
+    void_vector_zinit_rand(V2z, RAND_MAXIMUM,M_RESULTAT);
+    mncblas_zcopy(M_RESULTAT,V2z,1,V2z_copy,1);
+    printf("---- Avant :\n");
+    printf("Mz : "); matrix_print(Mz,TYPE_COMPLEXE_DOUBLE,MNCblasRowMajor,M_RESULTAT,N_RESULTAT);
+    printf("V1z : "); vector_print(V1z,TYPE_COMPLEXE_DOUBLE,N_RESULTAT);
+    printf("V2z : "); vector_print(V2z,TYPE_COMPLEXE_DOUBLE,M_RESULTAT);
+    mncblas_zgemv(MNCblasRowMajor,MNCblasNoTrans,M_RESULTAT,N_RESULTAT,&tmpz,Mz,1,V1z,1,&tmpz,V2z,1);
+    printf("---- Apres :\n");
+    printf("V2z : "); vector_print(V2z,TYPE_COMPLEXE_DOUBLE,M_RESULTAT);
+    printf("-------------------------- test 4 (V2z=2*Mz*V1z+2*V2z) (MNCblasColMajor): \n");
+    printf("---- Avant :\n");
+    row_to_col_major(TYPE_COMPLEXE_DOUBLE,Mz,M_RESULTAT,N_RESULTAT);
+    printf("Mz : "); matrix_print(Mz,TYPE_COMPLEXE_DOUBLE,MNCblasColMajor,M_RESULTAT,N_RESULTAT);
+    printf("V1z : "); vector_print(V1z,TYPE_COMPLEXE_DOUBLE,N_RESULTAT);
+    printf("V2z : "); vector_print(V2z_copy,TYPE_COMPLEXE_DOUBLE,M_RESULTAT);
+    mncblas_zgemv(MNCblasColMajor,MNCblasNoTrans,M_RESULTAT,N_RESULTAT,&tmpz,Mz,1,V1z,1,&tmpz,V2z_copy,1);
+    printf("---- Apres :\n");
+    printf("V2z : "); vector_print(V2z_copy,TYPE_COMPLEXE_DOUBLE,M_RESULTAT);
+
+    // Trans :
+
+    printf("-------------------------- test 5 (V2z=2*Mz*V1z+2*V2z) (MNCblasRowMajor,MNCblasTrans): \n");
+    void_matrix_zinit(Mz,gen_complexe_double(1,0),M_RESULTAT,N_RESULTAT);
+    void_vector_zinit(V1z, gen_complexe_double(1,0),M_RESULTAT);
+    void_vector_zinit(V2z, gen_complexe_double(2,0),N_RESULTAT);
+    printf("---- Avant :\n");
+    printf("Mz : "); matrix_print(Mz,TYPE_COMPLEXE_DOUBLE,MNCblasRowMajor,M_RESULTAT,N_RESULTAT);
+    printf("V1z : "); vector_print(V1z,TYPE_COMPLEXE_DOUBLE,M_RESULTAT);
+    printf("V2z : "); vector_print(V2z,TYPE_COMPLEXE_DOUBLE,N_RESULTAT);
+    mncblas_zgemv(MNCblasRowMajor,MNCblasTrans,M_RESULTAT,N_RESULTAT,&tmpz,Mz,1,V1z,1,&tmpz,V2z,1);
+    printf("---- Apres :\n");
+    printf("V2z : "); vector_print(V2z,TYPE_COMPLEXE_DOUBLE,N_RESULTAT);
+    printf("-------------------------- test 6 (V2z=2*Mz*V1z+2*V2z) (MNCblasColMajor,MNCblasTrans): \n");
+    void_vector_zinit(V2z, gen_complexe_double(2,0),N_RESULTAT);
+    printf("---- Avant :\n");
+    printf("Mz : "); matrix_print(Mz,TYPE_COMPLEXE_DOUBLE,MNCblasColMajor,M_RESULTAT,N_RESULTAT);
+    printf("V1z : "); vector_print(V1z,TYPE_COMPLEXE_DOUBLE,M_RESULTAT);
+    printf("V2z : "); vector_print(V2z,TYPE_COMPLEXE_DOUBLE,N_RESULTAT);
+    mncblas_zgemv(MNCblasColMajor,MNCblasTrans,M_RESULTAT,N_RESULTAT,&tmpz,Mz,1,V1z,1,&tmpz,V2z,1);
+    printf("---- Apres :\n");
+    printf("V2z : "); vector_print(V2z,TYPE_COMPLEXE_DOUBLE,N_RESULTAT);
+
+
+    printf("-------------------------- test 7 (V2z=2*Mz*V1z+2*V2z) (MNCblasRowMajor,MNCblasTrans): \n");
+    void_matrix_zinit_rand(Mz,RAND_MAXIMUM,M_RESULTAT,N_RESULTAT);
+    void_vector_zinit_rand(V1z, RAND_MAXIMUM,M_RESULTAT);
+    void_vector_zinit_rand(V2z, RAND_MAXIMUM,N_RESULTAT);
+    mncblas_zcopy(N_RESULTAT,V2z,1,V2z_copy,1);
+    printf("---- Avant :\n");
+    printf("Mz : "); matrix_print(Mz,TYPE_COMPLEXE_DOUBLE,MNCblasRowMajor,M_RESULTAT,N_RESULTAT);
+    printf("V1z : "); vector_print(V1z,TYPE_COMPLEXE_DOUBLE,M_RESULTAT);
+    printf("V2z : "); vector_print(V2z,TYPE_COMPLEXE_DOUBLE,N_RESULTAT);
+    mncblas_zgemv(MNCblasRowMajor,MNCblasTrans,M_RESULTAT,N_RESULTAT,&tmpz,Mz,1,V1z,1,&tmpz,V2z,1);
+    printf("---- Apres :\n");
+    printf("V2z : "); vector_print(V2z,TYPE_COMPLEXE_DOUBLE,N_RESULTAT);
+    printf("-------------------------- test 8 (V2z=2*Mz*V1z+2*V2z) (MNCblasColMajor,MNCblasTrans): \n");
+    printf("---- Avant :\n");
+    row_to_col_major(TYPE_COMPLEXE_DOUBLE,Mz,M_RESULTAT,N_RESULTAT);
+    printf("Mz : "); matrix_print(Mz,TYPE_COMPLEXE_DOUBLE,MNCblasColMajor,M_RESULTAT,N_RESULTAT);
+    printf("V1z : "); vector_print(V1z,TYPE_COMPLEXE_DOUBLE,M_RESULTAT);
+    printf("V2z : "); vector_print(V2z_copy,TYPE_COMPLEXE_DOUBLE,N_RESULTAT);
+    mncblas_zgemv(MNCblasColMajor,MNCblasTrans,M_RESULTAT,N_RESULTAT,&tmpz,Mz,1,V1z,1,&tmpz,V2z_copy,1);
+    printf("---- Apres :\n");
+    printf("V2z : "); vector_print(V2z_copy,TYPE_COMPLEXE_DOUBLE,N_RESULTAT);
+
     free_vm(V1s);
     free_vm(V1d);
     free_vm(V1c);
@@ -289,17 +470,17 @@ int main (int argc, char **argv) {
     free_vm(V2z);
     free_vm(V2z_copy);
 
-    #define M_FLOPS    10000
-    #define N_FLOPS    10000
+    #define M_FLOPS    1000
+    #define N_FLOPS    1000
     #define NB_EXPE     10
     #define NB_OPE_REEL 1 // ??
     #define NB_OPE_COMPLEXE 2 // ??
 
     MAX_SIZE = (M_RESULTAT < N_RESULTAT ? N_RESULTAT : M_RESULTAT);
-    V1s = (float*)malloc(MAX_SIZE*sizeof(float)), V2s = (float*)malloc(MAX_SIZE*sizeof(float));
-    V1d = (double*)malloc(MAX_SIZE*sizeof(double)), V2d = (double*)malloc(MAX_SIZE*sizeof(double));
-    V1c = (complexe_float_t*)malloc(MAX_SIZE*sizeof(complexe_float_t)), V2c = (complexe_float_t*)malloc(MAX_SIZE*sizeof(complexe_float_t));
-    V1z = (complexe_double_t*)malloc(MAX_SIZE*sizeof(complexe_double_t)), V2z = (complexe_double_t*)malloc(MAX_SIZE*sizeof(complexe_double_t));
+    V1s = (float*)malloc(MAX_SIZE*sizeof(float)); V2s = (float*)malloc(MAX_SIZE*sizeof(float));
+    V1d = (double*)malloc(MAX_SIZE*sizeof(double)); V2d = (double*)malloc(MAX_SIZE*sizeof(double));
+    V1c = (complexe_float_t*)malloc(MAX_SIZE*sizeof(complexe_float_t)); V2c = (complexe_float_t*)malloc(MAX_SIZE*sizeof(complexe_float_t));
+    V1z = (complexe_double_t*)malloc(MAX_SIZE*sizeof(complexe_double_t)); V2z = (complexe_double_t*)malloc(MAX_SIZE*sizeof(complexe_double_t));
 
     Ms = (float*)malloc(M_FLOPS*N_FLOPS*sizeof(float));
     Md = (double*)malloc(M_FLOPS*N_FLOPS*sizeof(double));
@@ -342,14 +523,14 @@ int main (int argc, char **argv) {
     for(int i = 0; i < NB_EXPE; i++) {
         printf("------------------------------------------------\n");
         start = _rdtsc();
-        mncblas_cgemv(MNCblasRowMajor,MNCblasNoTrans,M_FLOPS,N_FLOPS,2,Mc,1,V1c,1,2,V2c,1);
+        mncblas_cgemv(MNCblasRowMajor,MNCblasNoTrans,M_FLOPS,N_FLOPS,&tmpc,Mc,1,V1c,1,&tmpc,V2c,1);
         end = _rdtsc();
         calcul_flop("mncblas_cgemv : ", NB_OPE_COMPLEXE*M_FLOPS*N_FLOPS ,end-start);
     }
     printf("<--------------------------------------------------------------->\n                      complexe_float_t sur NB_EXPE\n");
     start = _rdtsc();
     for(int i = 0; i < NB_EXPE; i++) {
-        mncblas_cgemv(MNCblasRowMajor,MNCblasNoTrans,M_FLOPS,N_FLOPS,2,Mc,1,V1c,1,2,V2c,1);
+        mncblas_cgemv(MNCblasRowMajor,MNCblasNoTrans,M_FLOPS,N_FLOPS,&tmpc,Mc,1,V1c,1,&tmpc,V2c,1);
     }
     end = _rdtsc();
     calcul_flop("mncblas_cgemv : ", NB_EXPE*NB_OPE_COMPLEXE*M_FLOPS*N_FLOPS ,end-start);
@@ -357,25 +538,25 @@ int main (int argc, char **argv) {
     for(int i = 0; i < NB_EXPE; i++) {
         printf("------------------------------------------------\n");
         start = _rdtsc();
-        mncblas_zgemv(MNCblasRowMajor,MNCblasNoTrans,M_FLOPS,N_FLOPS,2,Mz,1,V1z,1,2,V2z,1);
+        mncblas_zgemv(MNCblasRowMajor,MNCblasNoTrans,M_FLOPS,N_FLOPS,&tmpz,Mz,1,V1z,1,&tmpz,V2z,1);
         end = _rdtsc();
         calcul_flop("mncblas_zgemv : ", NB_OPE_COMPLEXE*M_FLOPS*N_FLOPS ,end-start);
     }
     printf("<--------------------------------------------------------------->\n                      complexe_double_t sur NB_EXPE\n");
     start = _rdtsc();
     for(int i = 0; i < NB_EXPE; i++) {
-        mncblas_zgemv(MNCblasRowMajor,MNCblasNoTrans,M_FLOPS,N_FLOPS,2,Mz,1,V1z,1,2,V2z,1);
+        mncblas_zgemv(MNCblasRowMajor,MNCblasNoTrans,M_FLOPS,N_FLOPS,&tmpz,Mz,1,V1z,1,&tmpz,V2z,1);
     }
     end = _rdtsc();
     calcul_flop("mncblas_zgemv : ", NB_EXPE*NB_OPE_COMPLEXE*M_FLOPS*N_FLOPS ,end-start);
 
 
-    free_vm(V1s);
-    free_vm(V1d);
-    free_vm(V1c);
-    free_vm(V1z);
-    free_vm(V2s);
-    free_vm(V2d);
-    free_vm(V2c);
-    free_vm(V2z);
+    // free_vm(V1s);
+    // free_vm(V1d);
+    // free_vm(V1c);
+    // free_vm(V1z);
+    // free_vm(V2s);
+    // free_vm(V2d);
+    // free_vm(V2c);
+    // free_vm(V2z);
 }

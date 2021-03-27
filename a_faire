@@ -1,12 +1,5 @@
 demander pour les flops de complexe2
 demander pour les nb opération de toute les fonctions
 
-faire gemc
-faire gemm
-faire test_axpy
-faire test_asum
-faire test_iamin
-faire test_iamax
-faire test_nrm2
-faire test_gemc
-faire test_gemm
+completer gemm
+completer test_gemm
