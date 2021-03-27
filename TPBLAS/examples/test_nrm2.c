@@ -31,80 +31,80 @@ int main (int argc, char **argv) {
     
 
 
-    printf("                   TEST_ASUM\n|||||||||||||||||||||||||||||||||||||||||||||||||||||\n                           1: TEST DE BON RESULTAT\n<------------------------------------------>\n                   float\n");
+    printf("                   TEST_NRM2\n|||||||||||||||||||||||||||||||||||||||||||||||||||||\n                           1: TEST DE BON RESULTAT\n<------------------------------------------>\n                   float\n");
     printf("---------- test 1 : \n");
     void_vector_sinit(V1s, 1,VECSIZE_RESULTAT);
     printf("V1s : "); vector_print(V1s,TYPE_FLOAT,VECSIZE_RESULTAT);
-    printf("mnblas_sasum : %f\n",mnblas_sasum(VECSIZE_RESULTAT,V1s,1));
+    printf("mnblas_snrm2 : %f\n",mnblas_snrm2(VECSIZE_RESULTAT,V1s,1));
     printf("---------- test 2 : \n");
     void_vector_sinit(V1s, 2,VECSIZE_RESULTAT);
     printf("V1s : "); vector_print(V1s,TYPE_FLOAT,VECSIZE_RESULTAT);
-    printf("mnblas_sasum : %f\n",mnblas_sasum(VECSIZE_RESULTAT,V1s,1));
+    printf("mnblas_snrm2 : %f\n",mnblas_snrm2(VECSIZE_RESULTAT,V1s,1));
     printf("---------- test 3 : \n");
     void_vector_sinit_rand(V1s, RAND_MAXIMUM,VECSIZE_RESULTAT);
     printf("V1s : "); vector_print(V1s,TYPE_FLOAT,VECSIZE_RESULTAT);
-    printf("mnblas_sasum : %f\n",mnblas_sasum(VECSIZE_RESULTAT,V1s,1));
+    printf("mnblas_snrm2 : %f\n",mnblas_snrm2(VECSIZE_RESULTAT,V1s,1));
     printf("---------- test 4 : \n");
     void_vector_sinit_rand(V1s, RAND_MAXIMUM,VECSIZE_RESULTAT);
     printf("V1s : "); vector_print(V1s,TYPE_FLOAT,VECSIZE_RESULTAT);
-    printf("mnblas_sasum : %f\n",mnblas_sasum(VECSIZE_RESULTAT,V1s,1));
+    printf("mnblas_snrm2 : %f\n",mnblas_snrm2(VECSIZE_RESULTAT,V1s,1));
 
     printf("<------------------------------------------>\n                   double\n");
 
     printf("---------- test 1 : \n");
     void_vector_dinit(V1d, 1,VECSIZE_RESULTAT);
     printf("V1d : "); vector_print(V1d,TYPE_DOUBLE,VECSIZE_RESULTAT);
-    printf("mnblas_dasum : %f\n",mnblas_dasum(VECSIZE_RESULTAT,V1d,1));
+    printf("mnblas_dnrm2 : %f\n",mnblas_dnrm2(VECSIZE_RESULTAT,V1d,1));
     printf("---------- test 2 : \n");
     void_vector_dinit(V1d, 2,VECSIZE_RESULTAT);
     printf("V1d : "); vector_print(V1d,TYPE_DOUBLE,VECSIZE_RESULTAT);
-    printf("mnblas_dasum : %f\n",mnblas_dasum(VECSIZE_RESULTAT,V1d,1));
+    printf("mnblas_dnrm2 : %f\n",mnblas_dnrm2(VECSIZE_RESULTAT,V1d,1));
     printf("---------- test 3 : \n");
     void_vector_dinit_rand(V1d, RAND_MAXIMUM,VECSIZE_RESULTAT);
     printf("V1d : "); vector_print(V1d,TYPE_DOUBLE,VECSIZE_RESULTAT);
-    printf("mnblas_dasum : %f\n",mnblas_dasum(VECSIZE_RESULTAT,V1d,1));
+    printf("mnblas_dnrm2 : %f\n",mnblas_dnrm2(VECSIZE_RESULTAT,V1d,1));
     printf("---------- test 4 : \n");
     void_vector_dinit_rand(V1d, RAND_MAXIMUM,VECSIZE_RESULTAT);
     printf("V1d : "); vector_print(V1d,TYPE_DOUBLE,VECSIZE_RESULTAT);
-    printf("mnblas_dasum : %f\n",mnblas_dasum(VECSIZE_RESULTAT,V1d,1));
+    printf("mnblas_dnrm2 : %f\n",mnblas_dnrm2(VECSIZE_RESULTAT,V1d,1));
 
     printf("<------------------------------------------>\n                   complexe_float_t\n");
 
     printf("---------- test 1 : \n");
     void_vector_cinit(V1c, tmpc1,VECSIZE_RESULTAT);
     printf("V1c : "); vector_print(V1c,TYPE_COMPLEXE_FLOAT,VECSIZE_RESULTAT);
-    printf("mnblas_scasum : %f\n",mnblas_scasum(VECSIZE_RESULTAT,V1c,1));
+    printf("mnblas_scnrm2 : %f\n",mnblas_scnrm2(VECSIZE_RESULTAT,V1c,1));
     printf("---------- test 2 : \n");
     void_vector_cinit(V1c, tmpc2,VECSIZE_RESULTAT);
     printf("V1c : "); vector_print(V1c,TYPE_COMPLEXE_FLOAT,VECSIZE_RESULTAT);
-    printf("mnblas_scasum : %f\n",mnblas_scasum(VECSIZE_RESULTAT,V1c,1));
+    printf("mnblas_scnrm2 : %f\n",mnblas_scnrm2(VECSIZE_RESULTAT,V1c,1));
     printf("---------- test 3 : \n");
     void_vector_cinit_rand(V1c, RAND_MAXIMUM,VECSIZE_RESULTAT);
     printf("V1c : "); vector_print(V1c,TYPE_COMPLEXE_FLOAT,VECSIZE_RESULTAT);
-    printf("mnblas_scasum : %f\n",mnblas_scasum(VECSIZE_RESULTAT,V1c,1));
+    printf("mnblas_scnrm2 : %f\n",mnblas_scnrm2(VECSIZE_RESULTAT,V1c,1));
     printf("---------- test 4 : \n");
     void_vector_cinit_rand(V1c, RAND_MAXIMUM,VECSIZE_RESULTAT);
     printf("V1c : "); vector_print(V1c,TYPE_COMPLEXE_FLOAT,VECSIZE_RESULTAT);
-    printf("mnblas_scasum : %f\n",mnblas_scasum(VECSIZE_RESULTAT,V1c,1));
+    printf("mnblas_scnrm2 : %f\n",mnblas_scnrm2(VECSIZE_RESULTAT,V1c,1));
 
     printf("<------------------------------------------>\n                   complexe_double_t\n");
 
     printf("---------- test 1 : \n");
     void_vector_zinit(V1z, tmpz1,VECSIZE_RESULTAT);
     printf("V1z : "); vector_print(V1z,TYPE_COMPLEXE_DOUBLE,VECSIZE_RESULTAT);
-    printf("mnblas_dzasum : %f\n",mnblas_dzasum(VECSIZE_RESULTAT,V1z,1));
+    printf("mnblas_dznrm2 : %f\n",mnblas_dznrm2(VECSIZE_RESULTAT,V1z,1));
     printf("---------- test 2 : \n");
     void_vector_zinit(V1z, tmpz2,VECSIZE_RESULTAT);
     printf("V1z : "); vector_print(V1z,TYPE_COMPLEXE_DOUBLE,VECSIZE_RESULTAT);
-    printf("mnblas_dzasum : %f\n",mnblas_dzasum(VECSIZE_RESULTAT,V1z,1));
+    printf("mnblas_dznrm2 : %f\n",mnblas_dznrm2(VECSIZE_RESULTAT,V1z,1));
     printf("---------- test 3 : \n");
     void_vector_zinit_rand(V1z, RAND_MAXIMUM,VECSIZE_RESULTAT);
     printf("V1z : "); vector_print(V1z,TYPE_COMPLEXE_DOUBLE,VECSIZE_RESULTAT);
-    printf("mnblas_dzasum : %f\n",mnblas_dzasum(VECSIZE_RESULTAT,V1z,1));
+    printf("mnblas_dznrm2 : %f\n",mnblas_dznrm2(VECSIZE_RESULTAT,V1z,1));
     printf("---------- test 4 : \n");
     void_vector_zinit_rand(V1z, RAND_MAXIMUM,VECSIZE_RESULTAT);
     printf("V1z : "); vector_print(V1z,TYPE_COMPLEXE_DOUBLE,VECSIZE_RESULTAT);
-    printf("mnblas_dzasum : %f\n",mnblas_dzasum(VECSIZE_RESULTAT,V1z,1));
+    printf("mnblas_dznrm2 : %f\n",mnblas_dznrm2(VECSIZE_RESULTAT,V1z,1));
 
 
     free_vm(V1s);
@@ -128,62 +128,62 @@ int main (int argc, char **argv) {
     for(int i = 0; i < NB_EXPE; i++) {
         printf("------------------------------------------------\n");
         start = _rdtsc();
-        mnblas_sasum(VECSIZE_FLOPS,V1s,1);
+        mnblas_snrm2(VECSIZE_FLOPS,V1s,1);
         end = _rdtsc();
-        calcul_flop("mnblas_sasum : ", NB_OPE_REEL*VECSIZE_FLOPS ,end-start);
+        calcul_flop("mnblas_snrm2 : ", NB_OPE_REEL*VECSIZE_FLOPS ,end-start);
     }
     printf("<--------------------------------------------------------------->\n                      float sur NB_EXPE\n");
     start = _rdtsc();
     for(int i = 0; i < NB_EXPE; i++) {
-        mnblas_sasum(VECSIZE_FLOPS,V1s,1);
+        mnblas_snrm2(VECSIZE_FLOPS,V1s,1);
     }
     end = _rdtsc();
-    calcul_flop("mnblas_sasum : ", NB_EXPE*NB_OPE_REEL*VECSIZE_FLOPS ,end-start);
+    calcul_flop("mnblas_snrm2 : ", NB_EXPE*NB_OPE_REEL*VECSIZE_FLOPS ,end-start);
     printf("<--------------------------------------------------------------->\n                      double\n");
     for(int i = 0; i < NB_EXPE; i++) {
         printf("------------------------------------------------\n");
         start = _rdtsc();
-        mnblas_dasum(VECSIZE_FLOPS,V1d,1);
+        mnblas_dnrm2(VECSIZE_FLOPS,V1d,1);
         end = _rdtsc();
-        calcul_flop("mnblas_dasum : ", NB_OPE_REEL*VECSIZE_FLOPS ,end-start);
+        calcul_flop("mnblas_dnrm2 : ", NB_OPE_REEL*VECSIZE_FLOPS ,end-start);
     }
     printf("<--------------------------------------------------------------->\n                      double sur NB_EXPE\n");
     start = _rdtsc();
     for(int i = 0; i < NB_EXPE; i++) {
-        mnblas_dasum(VECSIZE_FLOPS,V1d,1);
+        mnblas_dnrm2(VECSIZE_FLOPS,V1d,1);
     }
     end = _rdtsc();
-    calcul_flop("mnblas_dasum : ", NB_EXPE*NB_OPE_REEL*VECSIZE_FLOPS ,end-start);
+    calcul_flop("mnblas_dnrm2 : ", NB_EXPE*NB_OPE_REEL*VECSIZE_FLOPS ,end-start);
     printf("<--------------------------------------------------------------->\n                      complexe_float_t\n");
     for(int i = 0; i < NB_EXPE; i++) {
         printf("------------------------------------------------\n");
         start = _rdtsc();
-        mnblas_scasum(VECSIZE_FLOPS,V1c,1);
+        mnblas_scnrm2(VECSIZE_FLOPS,V1c,1);
         end = _rdtsc();
-        calcul_flop("mnblas_scasum : ", NB_OPE_COMPLEXE*VECSIZE_FLOPS ,end-start);
+        calcul_flop("mnblas_scnrm2 : ", NB_OPE_COMPLEXE*VECSIZE_FLOPS ,end-start);
     }
     printf("<--------------------------------------------------------------->\n                      complexe_float_t sur NB_EXPE\n");
     start = _rdtsc();
     for(int i = 0; i < NB_EXPE; i++) {
-        mnblas_scasum(VECSIZE_FLOPS,V1c,1);
+        mnblas_scnrm2(VECSIZE_FLOPS,V1c,1);
     }
     end = _rdtsc();
-    calcul_flop("mnblas_scasum : ", NB_EXPE*NB_OPE_COMPLEXE*VECSIZE_FLOPS ,end-start);
+    calcul_flop("mnblas_scnrm2 : ", NB_EXPE*NB_OPE_COMPLEXE*VECSIZE_FLOPS ,end-start);
     printf("<--------------------------------------------------------------->\n                      complexe_double_t\n");
     for(int i = 0; i < NB_EXPE; i++) {
         printf("------------------------------------------------\n");
         start = _rdtsc();
-        mnblas_dzasum(VECSIZE_FLOPS,V1z,1);
+        mnblas_dznrm2(VECSIZE_FLOPS,V1z,1);
         end = _rdtsc();
-        calcul_flop("mnblas_dzasum : ", NB_OPE_COMPLEXE*VECSIZE_FLOPS ,end-start);
+        calcul_flop("mnblas_dznrm2 : ", NB_OPE_COMPLEXE*VECSIZE_FLOPS ,end-start);
     }
     printf("<--------------------------------------------------------------->\n                      complexe_double_t sur NB_EXPE\n");
     start = _rdtsc();
     for(int i = 0; i < NB_EXPE; i++) {
-        mnblas_dzasum(VECSIZE_FLOPS,V1z,1);
+        mnblas_dznrm2(VECSIZE_FLOPS,V1z,1);
     }
     end = _rdtsc();
-    calcul_flop("mnblas_dzasum : ", NB_EXPE*NB_OPE_COMPLEXE*VECSIZE_FLOPS ,end-start);
+    calcul_flop("mnblas_dznrm2 : ", NB_EXPE*NB_OPE_COMPLEXE*VECSIZE_FLOPS ,end-start);
 
 
 

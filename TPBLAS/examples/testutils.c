@@ -59,6 +59,46 @@ complexe_double_t rand_complexe_double_t(const int max) {
     return tmp;
 }
 
+void row_to_col_major(VTYPE type, void* V, const int M, const int N) {
+    if(type == TYPE_FLOAT) {
+        float* tmp = (float*)malloc(M*N*sizeof(float));
+        mncblas_scopy(M*N,V,1,tmp,1);
+        for(register int i = 0; i < M ; i++) {
+            for(register int j = 0; j < N ; j++) {
+                *(((float*)V)+j*M+i) = *(tmp+i*N+j);
+            }
+        }
+        free_vm(tmp);
+    } else if (type == TYPE_DOUBLE) {
+        double* tmp = (double*)malloc(M*N*sizeof(double));
+        mncblas_dcopy(M*N,V,1,tmp,1);
+        for(register int i = 0; i < M ; i++) {
+            for(register int j = 0; j < N ; j++) {
+                *(((double*)V)+j*M+i) = *(tmp+i*N+j);
+            }
+        }
+        free_vm(tmp);
+    } else if (type == TYPE_DOUBLE) {
+        complexe_float_t* tmp = (complexe_float_t*)malloc(M*N*sizeof(complexe_float_t));
+        mncblas_ccopy(M*N,V,1,tmp,1);
+        for(register int i = 0; i < M ; i++) {
+            for(register int j = 0; j < N ; j++) {
+                *(((complexe_float_t*)V)+j*M+i) = *(tmp+i*N+j);
+            }
+        }
+        free_vm(tmp);
+    } else if (type == TYPE_DOUBLE) {
+        complexe_double_t* tmp = (complexe_double_t*)malloc(M*N*sizeof(complexe_double_t));
+        mncblas_zcopy(M*N,V,1,tmp,1);
+        for(register int i = 0; i < M ; i++) {
+            for(register int j = 0; j < N ; j++) {
+                *(((complexe_double_t*)V)+j*M+i) = *(tmp+i*N+j);
+            }
+        }
+        free_vm(tmp);
+    }
+}
+
 /*
     VECTOR_INIT
 */
@@ -233,198 +273,163 @@ void vector_print (void* V, VTYPE type, const register unsigned int len) {
     MATRIX_INIT
 */
 
-void void_matrix_sinit (float* V, const MNCBLAS_LAYOUT layout, const float x, const int M, const int N) {
-    if(layout == MNCblasRowMajor) {
-        for(register int i = 0, j; i < M; i++) {
-            for(j = 0; j < M; j++)
-                V[i*N+j] = x;
-        }
-    } else if (layout == MNCblasColMajor) {
-        for(register int i = 0, j; i < M; i++) {
-            for(j = 0; j < M; j++)
-                V[j*N+i] = x;
-        }
+void void_matrix_sinit (float* V, const float x, const int M, const int N) {
+    for(register int i = 0, len = M*N ; i < len ; i++) {
+        V[i] = x;
     }
 }
 
-void void_matrix_dinit (double* V, const MNCBLAS_LAYOUT layout, const double x, const int M, const int N) {
-    if(layout == MNCblasRowMajor) {
-        for(register int i = 0, j; i < M; i++) {
-            for(j = 0; j < M; j++)
-                V[i*N+j] = x;
-        }
-    } else if (layout == MNCblasColMajor) {
-        for(register int i = 0, j; i < M; i++) {
-            for(j = 0; j < M; j++)
-                V[j*N+i] = x;
-        }
+void void_matrix_dinit (double* V, const double x, const int M, const int N) {
+    for(register int i = 0, len = M*N ; i < len ; i++) {
+        V[i] = x;
     }
 }
 
-void void_matrix_cinit (complexe_float_t* V, const MNCBLAS_LAYOUT layout, const complexe_float_t x, const int M, const int N) {
-    if(layout == MNCblasRowMajor) {
-        for(register int i = 0, j; i < M; i++) {
-            for(j = 0; j < M; j++)
-                V[i*N+j] = x;
-        }
-    } else if (layout == MNCblasColMajor) {
-        for(register int i = 0, j; i < M; i++) {
-            for(j = 0; j < M; j++)
-                V[j*N+i] = x;
-        }
+void void_matrix_cinit (complexe_float_t* V, const complexe_float_t x, const int M, const int N) {
+    for(register int i = 0, len = M*N ; i < len ; i++) {
+        V[i] = x;
     }
 }
 
-void void_matrix_zinit (complexe_double_t* V, const MNCBLAS_LAYOUT layout, const complexe_double_t x, const int M, const int N) {
-    if(layout == MNCblasRowMajor) {
-        for(register int i = 0, j; i < M; i++) {
-            for(j = 0; j < M; j++)
-                V[i*N+j] = x;
-        }
-    } else if (layout == MNCblasColMajor) {
-        for(register int i = 0, j; i < M; i++) {
-            for(j = 0; j < M; j++)
-                V[j*N+i] = x;
-        }
+void void_matrix_zinit (complexe_double_t* V, const complexe_double_t x, const int M, const int N) {
+    for(register int i = 0, len = M*N ; i < len ; i++) {
+        V[i] = x;
     }
 }
 
-void void_matrix_cinit2 (complexe_float_t* V, const MNCBLAS_LAYOUT layout, const float real, const float imaginary, const int M, const int N) {
-    if(layout == MNCblasRowMajor) {
-        for(register int i = 0, j; i < M; i++) {
-            for(j = 0; j < M; j++) {
-                V[i*N+j].real = real;
-                V[i*N+j].imaginary = imaginary;
-            }
-        }
-    } else if (layout == MNCblasColMajor) {
-        for(register int i = 0, j; i < M; i++) {
-            for(j = 0; j < M; j++) {
-                V[j*N+i].real = real;
-                V[j*N+i].imaginary = imaginary;
-            }
-        }
+void void_matrix_cinit2 (complexe_float_t* V, const float real, const float imaginary, const int M, const int N) {
+    for(register int i = 0, len = M*N ; i < len ; i++) {
+        V[i].real = real;
+        V[i].imaginary = imaginary;
     }
 }
 
-void void_matrix_zinit2 (complexe_double_t* V, const MNCBLAS_LAYOUT layout, const double real, const double imaginary, const int M, const int N) {
-    if(layout == MNCblasRowMajor) {
-        for(register int i = 0, j; i < M; i++) {
-            for(j = 0; j < M; j++) {
-                V[i*N+j].real = real;
-                V[i*N+j].imaginary = imaginary;
-            }
-        }
-    } else if (layout == MNCblasColMajor) {
-        for(register int i = 0, j; i < M; i++) {
-            for(j = 0; j < M; j++) {
-                V[j*N+i].real = real;
-                V[j*N+i].imaginary = imaginary;
-            }
-        }
+void void_matrix_zinit2 (complexe_double_t* V, const double real, const double imaginary, const int M, const int N) {
+    for(register int i = 0, len = M*N ; i < len ; i++) {
+        V[i].real = real;
+        V[i].imaginary = imaginary;
     }
 }
 
-float* matrix_sinit (const MNCBLAS_LAYOUT layout, const float x, const int M, const int N) {
+float* matrix_sinit (const float x, const int M, const int N) {
     float* V = (float*)malloc(M*N*sizeof(float));
-    if(layout == MNCblasRowMajor) {
-        for(register int i = 0, j; i < M; i++) {
-            for(j = 0; j < M; j++)
-                V[i*N+j] = x;
-        }
-    } else if (layout == MNCblasColMajor) {
-        for(register int i = 0, j; i < M; i++) {
-            for(j = 0; j < M; j++)
-                V[j*N+i] = x;
-        }
+    for(register int i = 0, len = M*N ; i < len ; i++) {
+        V[i] = x;
     }
     return V;
 }
 
-double* matrix_dinit (const MNCBLAS_LAYOUT layout, const double x, const int M, const int N) {
+double* matrix_dinit (const double x, const int M, const int N) {
     double* V = (double*)malloc(M*N*sizeof(double));
-    if(layout == MNCblasRowMajor) {
-        for(register int i = 0, j; i < M; i++) {
-            for(j = 0; j < M; j++)
-                V[i*N+j] = x;
-        }
-    } else if (layout == MNCblasColMajor) {
-        for(register int i = 0, j; i < M; i++) {
-            for(j = 0; j < M; j++)
-                V[j*N+i] = x;
-        }
+    for(register int i = 0, len = M*N ; i < len ; i++) {
+        V[i] = x;
     }
     return V;
 }
 
-complexe_float_t* matrix_cinit (const MNCBLAS_LAYOUT layout, const complexe_float_t x, const int M, const int N) {
+complexe_float_t* matrix_cinit (const complexe_float_t x, const int M, const int N) {
     complexe_float_t* V = (complexe_float_t*)malloc(M*N*sizeof(complexe_float_t));
-    if(layout == MNCblasRowMajor) {
-        for(register int i = 0, j; i < M; i++) {
-            for(j = 0; j < M; j++)
-                V[i*N+j] = x;
-        }
-    } else if (layout == MNCblasColMajor) {
-        for(register int i = 0, j; i < M; i++) {
-            for(j = 0; j < M; j++)
-                V[j*N+i] = x;
-        }
+    for(register int i = 0, len = M*N ; i < len ; i++) {
+        V[i] = x;
     }
     return V;
 }
 
-complexe_double_t* matrix_zinit (const MNCBLAS_LAYOUT layout, const complexe_double_t x, const int M, const int N) {
+complexe_double_t* matrix_zinit (const complexe_double_t x, const int M, const int N) {
     complexe_double_t* V = (complexe_double_t*)malloc(M*N*sizeof(complexe_double_t));
-    if(layout == MNCblasRowMajor) {
-        for(register int i = 0, j; i < M; i++) {
-            for(j = 0; j < M; j++)
-                V[i*N+j] = x;
-        }
-    } else if (layout == MNCblasColMajor) {
-        for(register int i = 0, j; i < M; i++) {
-            for(j = 0; j < M; j++)
-                V[j*N+i] = x;
-        }
+    for(register int i = 0, len = M*N ; i < len ; i++) {
+        V[i] = x;
     }
     return V;
 }
 
-complexe_float_t* matrix_cinit2 (const MNCBLAS_LAYOUT layout, const float real, const float imaginary, const int M, const int N) {
+complexe_float_t* matrix_cinit2 (const float real, const float imaginary, const int M, const int N) {
     complexe_float_t* V = (complexe_float_t*)malloc(M*N*sizeof(complexe_float_t));
-    if(layout == MNCblasRowMajor) {
-        for(register int i = 0, j; i < M; i++) {
-            for(j = 0; j < M; j++) {
-                V[i*N+j].real = real;
-                V[i*N+j].imaginary = imaginary;
-            }
-        }
-    } else if (layout == MNCblasColMajor) {
-        for(register int i = 0, j; i < M; i++) {
-            for(j = 0; j < M; j++) {
-                V[j*N+i].real = real;
-                V[j*N+i].imaginary = imaginary;
-            }
-        }
+    for(register int i = 0, len = M*N ; i < len ; i++) {
+        V[i].real = real;
+        V[i].imaginary = imaginary;
     }
     return V;
 }
 
-complexe_double_t* matrix_zinit2 (const MNCBLAS_LAYOUT layout, const double real, const double imaginary, const int M, const int N) {
+complexe_double_t* matrix_zinit2 (const double real, const double imaginary, const int M, const int N) {
     complexe_double_t* V = (complexe_double_t*)malloc(M*N*sizeof(complexe_double_t));
-    if(layout == MNCblasRowMajor) {
-        for(register int i = 0, j; i < M; i++) {
-            for(j = 0; j < M; j++) {
-                V[i*N+j].real = real;
-                V[i*N+j].imaginary = imaginary;
-            }
-        }
-    } else if (layout == MNCblasColMajor) {
-        for(register int i = 0, j; i < M; i++) {
-            for(j = 0; j < M; j++) {
-                V[j*N+i].real = real;
-                V[j*N+i].imaginary = imaginary;
-            }
-        }
+    for(register int i = 0, len = M*N ; i < len ; i++) {
+        V[i].real = real;
+        V[i].imaginary = imaginary;
+    }
+    return V;
+}
+
+
+
+
+
+
+
+
+
+void void_matrix_sinit_rand (float* V, const int max, const int M, const int N) {
+    srand(_rdtsc());
+    for(register int i = 0, len = M*N ; i < len ; i++) {
+        V[i] = rand_float(max);
+    }
+}
+
+void void_matrix_dinit_rand (double* V, const int max, const int M, const int N) {
+    srand(_rdtsc());
+    for(register int i = 0, len = M*N ; i < len ; i++) {
+        V[i] = rand_double(max);
+    }
+}
+
+void void_matrix_cinit_rand (complexe_float_t* V ,const int max, const int M, const int N) {
+    srand(_rdtsc());
+    for(register int i = 0, len = M*N ; i < len ; i++) {
+        V[i] = rand_complexe_float_t(max);
+    }
+}
+
+void void_matrix_zinit_rand (complexe_double_t* V ,const int max, const int M, const int N) {
+    srand(_rdtsc());
+    for(register int i = 0, len = M*N ; i < len ; i++) {
+        V[i] = rand_complexe_double_t(max);
+    }
+}
+
+
+float* matrix_sinit_rand (const int max, const int M, const int N) {
+    float* V = (float*)malloc(M*N*sizeof(float));
+    srand(_rdtsc());
+    for(register int i = 0, len = M*N ; i < len ; i++) {
+        V[i] = rand_float(max);
+    }
+    return V;
+}
+
+double* matrix_dinit_rand (const int max, const int M, const int N) {
+    double* V = (double*)malloc(M*N*sizeof(double));
+    srand(_rdtsc());
+    for(register int i = 0, len = M*N ; i < len ; i++) {
+        V[i] = rand_double(max);
+    }
+    return V;
+}
+
+complexe_float_t* matrix_cinit_rand (const int max, const int M, const int N) {
+    complexe_float_t* V = (complexe_float_t*)malloc(M*N*sizeof(complexe_float_t));
+    srand(_rdtsc());
+    for(register int i = 0, len = M*N ; i < len ; i++) {
+        V[i] = rand_complexe_float_t(max);
+    }
+    return V;
+}
+
+complexe_double_t* matrix_zinit_rand (const int max, const int M, const int N) {
+    complexe_double_t* V = (complexe_double_t*)malloc(M*N*sizeof(complexe_double_t));
+    srand(_rdtsc());
+    for(register int i = 0, len = M*N ; i < len ; i++) {
+        V[i] = rand_complexe_double_t(max);
     }
     return V;
 }
@@ -440,6 +445,7 @@ complexe_double_t* matrix_zinit2 (const MNCBLAS_LAYOUT layout, const double real
 
 void matrix_print (const void* V, const VTYPE type, const MNCBLAS_LAYOUT layout ,const int M ,const int N) {
     register unsigned int i,j;
+    printf("\n");
     if(type == TYPE_FLOAT) {
         float* tmp = (float*) V;
         if(layout == MNCblasRowMajor) {
@@ -448,7 +454,7 @@ void matrix_print (const void* V, const VTYPE type, const MNCBLAS_LAYOUT layout 
             }
         } else if (layout == MNCblasColMajor) {
             for(i = 0; i < M; i++) {
-                printf("| "); for(j = 0 ; j < N ; j++) { printf ("%.2f ", tmp[j*N+i]); } printf("|\n");
+                printf("| "); for(j = 0 ; j < N ; j++) { printf ("%.2f ", tmp[j*M+i]); } printf("|\n");
             }
         }
     } else if(type == TYPE_DOUBLE){
@@ -459,7 +465,7 @@ void matrix_print (const void* V, const VTYPE type, const MNCBLAS_LAYOUT layout 
             }
         } else if (layout == MNCblasColMajor) {
             for(i = 0; i < M; i++) {
-                printf("| "); for(j = 0 ; j < N ; j++) { printf ("%.2f ", tmp[j*N+i]); } printf("|\n");
+                printf("| "); for(j = 0 ; j < N ; j++) { printf ("%.2f ", tmp[j*M+i]); } printf("|\n");
             }
         }
     } else if (type == TYPE_COMPLEXE_FLOAT) {
@@ -470,7 +476,7 @@ void matrix_print (const void* V, const VTYPE type, const MNCBLAS_LAYOUT layout 
             }
         } else if (layout == MNCblasColMajor) {
             for(i = 0; i < M; i++) {
-                printf("| "); for(j = 0 ; j < N ; j++) { printf ("%.2f+%.2fi ", tmp[j*N+i].real, tmp[j*N+i].imaginary); } printf("|\n");
+                printf("| "); for(j = 0 ; j < N ; j++) { printf ("%.2f+%.2fi ", tmp[j*M+i].real, tmp[j*M+i].imaginary); } printf("|\n");
             }
         }
     } else if (type == TYPE_COMPLEXE_DOUBLE) {
@@ -481,7 +487,7 @@ void matrix_print (const void* V, const VTYPE type, const MNCBLAS_LAYOUT layout 
             }
         } else if (layout == MNCblasColMajor) {
             for(i = 0; i < M; i++) {
-                printf("| "); for(j = 0 ; j < N ; j++) { printf ("%.2f+%.2fi ", tmp[j*N+i].real, tmp[j*N+i].imaginary); } printf("|\n");
+                printf("| "); for(j = 0 ; j < N ; j++) { printf ("%.2f+%.2fi ", tmp[j*M+i].real, tmp[j*M+i].imaginary); } printf("|\n");
             }
         }
     }

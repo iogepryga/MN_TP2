@@ -1,4 +1,4 @@
-all: test_complexe2 test_complexe test_dot test_dot_dyn test_copy test_axpy test_asum test_iamin test_iamax
+all: test_complexe2 test_complexe test_dot test_dot_dyn test_copy test_axpy test_asum test_iamin test_iamax test_nrm2 test_gemv
 
 INC_DIR=../include
 
@@ -7,7 +7,7 @@ LIB_DIR=../lib
 LIBST=-lmnblas
 LIBDYN=-lmnblasdyn
 
-OPTIONS_COMPIL  =-Wall -O2 -fPIC -I$(INC_DIR)
+OPTIONS_COMPIL  = -g -Wall -O2 -fPIC -I$(INC_DIR)
 
 OPTIONS_LINK_STATIC  =   -fopenmp -L$(LIB_DIR) $(LIBST)  
 OPTIONS_LINK_DYN  = -fopenmp -L$(LIB_DIR) $(LIBDYN)  
@@ -87,5 +87,26 @@ test_iamax.o : test_iamax.c $(INC_DIR)/mnblas.h testutils.h
 	gcc $(OPTIONS_COMPIL) -c test_iamax.c
 
 
+test_nrm2: test_nrm2.o testutils.o  $(LIB_DIR)/libmnblas.a
+	gcc -o test_nrm2 test_nrm2.o testutils.o $(OPTIONS_LINK_STATIC) -lm
+
+test_nrm2.o : test_nrm2.c $(INC_DIR)/mnblas.h testutils.h
+	gcc $(OPTIONS_COMPIL) -c test_nrm2.c
+
+
+test_gemv: test_gemv.o testutils.o  $(LIB_DIR)/libmnblas.a
+	gcc -o test_gemv test_gemv.o testutils.o $(OPTIONS_LINK_STATIC)
+
+test_gemv.o : test_gemv.c $(INC_DIR)/mnblas.h testutils.h
+	gcc $(OPTIONS_COMPIL) -c test_gemv.c
+
+
+test_gemm: test_gemm.o testutils.o  $(LIB_DIR)/libmnblas.a
+	gcc -o test_gemm test_gemm.o testutils.o $(OPTIONS_LINK_STATIC)
+
+test_gemm.o : test_gemm.c $(INC_DIR)/mnblas.h testutils.h
+	gcc $(OPTIONS_COMPIL) -c test_gemm.c
+
+
 clean:
-	rm -f *.o test_dot test_dot_dyn test_complexe test_complexe2 *~ test_copy test_swap test_axpy
+	rm -f *.o test_dot test_dot_dyn test_complexe test_complexe2 *~ test_copy test_swap test_axpy test_asum test_iamin test_iamax test_nrm2 test_gemv test_gemm
