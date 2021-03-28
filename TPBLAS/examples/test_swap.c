@@ -138,10 +138,17 @@ int main (int argc, char **argv) {
     free_vm(V2z);
 
 
+    
+
+
+
     #define VECSIZE_FLOPS    100000
-    #define NB_EXPE     10
-    #define NB_OPE_REEL 1 // ??
-    #define NB_OPE_COMPLEXE 2 // ??
+    #define NB_EXPE_VISIBLE 6
+    #define NB_EXPE     1000
+    #define NB_OPE_REEL 2 // ??
+    #define NB_OPE_COMPLEXE 4 // ??
+
+    // Il n'a pas d'opération flotante à proprement parler dans les fonctions swap. Ici , j'ai mis 1 pour ne pas mettre 0 car on peut evetuellement dire que l'affectation prend un cycle.
 
     V1s = (float*)malloc(VECSIZE_FLOPS*sizeof(float)), V2s = (float*)malloc(VECSIZE_FLOPS*sizeof(float));
     V1d = (double*)malloc(VECSIZE_FLOPS*sizeof(double)), V2d = (double*)malloc(VECSIZE_FLOPS*sizeof(double));
@@ -151,7 +158,7 @@ int main (int argc, char **argv) {
 
     printf("||||||||||||||||||||||||||||||||||||||||||||||||||||||||\n                  2 : FLOPS\n <-------------------------------------------------->\n                     float\n");
     unsigned long long int start, end ; 
-    for(int i = 0; i < NB_EXPE; i++) {
+    for(int i = 0; i < NB_EXPE_VISIBLE; i++) {
         printf("------------------------------------------------\n");
         start = _rdtsc();
         mncblas_sswap(VECSIZE_FLOPS,V1s,1,V2s,1);
@@ -166,7 +173,7 @@ int main (int argc, char **argv) {
     end = _rdtsc();
     calcul_flop("mncblas_sswap : ", NB_EXPE*NB_OPE_REEL*VECSIZE_FLOPS ,end-start);
     printf("<--------------------------------------------------------------->\n                      double\n");
-    for(int i = 0; i < NB_EXPE; i++) {
+    for(int i = 0; i < NB_EXPE_VISIBLE; i++) {
         printf("------------------------------------------------\n");
         start = _rdtsc();
         mncblas_dswap(VECSIZE_FLOPS,V1d,1,V2d,1);
@@ -181,7 +188,7 @@ int main (int argc, char **argv) {
     end = _rdtsc();
     calcul_flop("mncblas_dswap : ", NB_EXPE*NB_OPE_REEL*VECSIZE_FLOPS ,end-start);
     printf("<--------------------------------------------------------------->\n                      complexe_float_t\n");
-    for(int i = 0; i < NB_EXPE; i++) {
+    for(int i = 0; i < NB_EXPE_VISIBLE; i++) {
         printf("------------------------------------------------\n");
         start = _rdtsc();
         mncblas_cswap(VECSIZE_FLOPS,V1c,1,V2c,1);
@@ -196,7 +203,7 @@ int main (int argc, char **argv) {
     end = _rdtsc();
     calcul_flop("mncblas_cswap : ", NB_EXPE*NB_OPE_COMPLEXE*VECSIZE_FLOPS ,end-start);
     printf("<--------------------------------------------------------------->\n                      complexe_double_t\n");
-    for(int i = 0; i < NB_EXPE; i++) {
+    for(int i = 0; i < NB_EXPE_VISIBLE; i++) {
         printf("------------------------------------------------\n");
         start = _rdtsc();
         mncblas_zswap(VECSIZE_FLOPS,V1z,1,V2z,1);

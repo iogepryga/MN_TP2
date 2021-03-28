@@ -4,7 +4,7 @@
 
 void mncblas_sgemv(const MNCBLAS_LAYOUT layout, const MNCBLAS_TRANSPOSE TransA,
                      const int M, const int N,
-                     const float alpha, const float *A, const int lda, const float *X, const int incX, const float beta, float *Y, const int incY) {
+                     const float alpha, const float *A, const int lda, const float *X, const int incX, const float beta, float *Y, const int incY) { // NB OPE FLOTANTE = 2*M*N + 3*M
     if(layout == MNCblasRowMajor) {
         if(TransA == MNCblasNoTrans) {
             register float sum ;
@@ -50,7 +50,7 @@ void mncblas_sgemv(const MNCBLAS_LAYOUT layout, const MNCBLAS_TRANSPOSE TransA,
 
 void mncblas_dgemv(MNCBLAS_LAYOUT layout, MNCBLAS_TRANSPOSE TransA,
                      const int M, const int N,
-                     const double alpha, const double *A, const int lda, const double *X, const int incX, const double beta, double *Y, const int incY) {
+                     const double alpha, const double *A, const int lda, const double *X, const int incX, const double beta, double *Y, const int incY) { // NB OPE FLOTANTE = 2*M*N + 3*M
    if(layout == MNCblasRowMajor) {
         if(TransA == MNCblasNoTrans) {
             register double sum ;
@@ -96,7 +96,7 @@ void mncblas_dgemv(MNCBLAS_LAYOUT layout, MNCBLAS_TRANSPOSE TransA,
 
 void mncblas_cgemv(MNCBLAS_LAYOUT layout, MNCBLAS_TRANSPOSE TransA,
                      const int M, const int N,
-                     const void *alpha, const void *A, const int lda, const void *X, const int incX, const void *beta, void *Y, const int incY) {
+                     const void *alpha, const void *A, const int lda, const void *X, const int incX, const void *beta, void *Y, const int incY) { // NB OPE FLOTANTE = 10*M*N + 18*M
     if(layout == MNCblasRowMajor) {
         if(TransA == MNCblasNoTrans) {
             register complexe_float_t sum ;
@@ -169,7 +169,7 @@ void mncblas_cgemv(MNCBLAS_LAYOUT layout, MNCBLAS_TRANSPOSE TransA,
 
 void mncblas_zgemv(MNCBLAS_LAYOUT layout, MNCBLAS_TRANSPOSE TransA,
                      const int M, const int N,
-                     const void *alpha, const void *A, const int lda, const void *X, const int incX, const void *beta, void *Y, const int incY){
+                     const void *alpha, const void *A, const int lda, const void *X, const int incX, const void *beta, void *Y, const int incY){ // NB OPE FLOTANTE = 10*M*N + 18*M
     /*if(layout == MNCblasRowMajor) {
         if(TransA == MNCblasNoTrans) {
             register complexe_double_t sum ;

@@ -20,8 +20,8 @@ void init_flop () {
   residu = end - start ;
 }
 
-void calcul_flop (char *message, int nb_operations_flottantes, unsigned long long int cycles) {
-  printf ("%s %d operations %5.3f GFLOP/s\n", message, nb_operations_flottantes, ((float) nb_operations_flottantes) / (((float) (cycles - residu)) * duree_cycle)) ;
+void calcul_flop (char *message, unsigned long long int nb_operations_flottantes, unsigned long long int cycles) {
+  printf ("%s %lld operations %5.3f GFLOP/s\n", message, nb_operations_flottantes, ((float) nb_operations_flottantes) / (((float) (cycles - residu)) * duree_cycle)) ;
 }
 
 void free_vm (void* address) {

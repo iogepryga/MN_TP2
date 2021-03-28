@@ -19,7 +19,7 @@ float mncblas_sdot(const int N, const float *X, const int incX,
 }
 */
 
-float mncblas_sdot(const int N, const float *X, const int incX, const float *Y, const int incY) {
+float mncblas_sdot(const int N, const float *X, const int incX, const float *Y, const int incY) { // NB OPE FLOTANTE = 2
   register float dot = 0.0;
   for (register unsigned int i = 0 , j= 0 ; i < N ; i += incX , j+=incY) {
     dot += X [i] * Y [j];
@@ -27,7 +27,7 @@ float mncblas_sdot(const int N, const float *X, const int incX, const float *Y, 
   return dot;
 }
 
-double mncblas_ddot(const int N, const double *X, const int incX, const double *Y, const int incY) {
+double mncblas_ddot(const int N, const double *X, const int incX, const double *Y, const int incY) { // NB OPE FLOTANTE = 2
   register double dot = 0.0;
   for (register unsigned int i = 0 , j= 0 ; i < N ; i += incX , j+=incY) {
     dot += X [i] * Y [j];
@@ -35,7 +35,7 @@ double mncblas_ddot(const int N, const double *X, const int incX, const double *
   return dot;
 }
 
-void mncblas_cdotu_sub(const int N, const void *X, const int incX, const void *Y, const int incY, void *dotu) {
+void mncblas_cdotu_sub(const int N, const void *X, const int incX, const void *Y, const int incY, void *dotu) { // NB OPE FLOTANTE = 10
   register complexe_float_t dot; dot.real=0; dot.imaginary =0; //tmp
   for(register unsigned int i = 0 , j= 0 ; i < N ; i += incX , j+=incY) {
     //tentative 1 :
@@ -53,7 +53,7 @@ void mncblas_cdotu_sub(const int N, const void *X, const int incX, const void *Y
   }
 }
 
-void mncblas_cdotc_sub(const int N, const void *X, const int incX, const void *Y, const int incY, void *dotc) {
+void mncblas_cdotc_sub(const int N, const void *X, const int incX, const void *Y, const int incY, void *dotc) { // NB OPE FLOTANTE = 11
   register complexe_float_t dot; dot.real=0; dot.imaginary =0; //tmp
   for(register unsigned int i = 0 , j= 0 ; i < N ; i += incX , j+=incY) {
     //tentative 1 :
@@ -72,7 +72,7 @@ void mncblas_cdotc_sub(const int N, const void *X, const int incX, const void *Y
   }
 }
 
-void mncblas_zdotu_sub(const int N, const void *X, const int incX, const void *Y, const int incY, void *dotu) {
+void mncblas_zdotu_sub(const int N, const void *X, const int incX, const void *Y, const int incY, void *dotu) { // NB OPE FLOTANTE = 10
   register complexe_double_t dot; dot.real=0; dot.imaginary =0; //tmp
   for(register unsigned int i = 0 , j= 0 ; i < N ; i += incX , j+=incY) {
     dot = add_complexe_double(dot,mult_complexe_double(*((complexe_double_t*)X+i),*((complexe_double_t*)Y+j)));
@@ -84,7 +84,7 @@ void mncblas_zdotu_sub(const int N, const void *X, const int incX, const void *Y
   }
 }
   
-void mncblas_zdotc_sub(const int N, const void *X, const int incX, const void *Y, const int incY, void *dotc) {
+void mncblas_zdotc_sub(const int N, const void *X, const int incX, const void *Y, const int incY, void *dotc) { // NB OPE FLOTANTE = 11
   register complexe_double_t dot; dot.real=0; dot.imaginary =0; //tmp
   for(register unsigned int i = 0 , j= 0 ; i < N ; i += incX , j+=incY) {
     ((complexe_double_t*)X+i)->imaginary *= -1;

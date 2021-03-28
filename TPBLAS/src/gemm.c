@@ -3,7 +3,7 @@
 
 void mncblas_sgemm(MNCBLAS_LAYOUT layout, MNCBLAS_TRANSPOSE TransA, MNCBLAS_TRANSPOSE TransB,
                      const int M, const int N, const int K,
-                     const float alpha, const float *A, const int lda, const float *B, const int ldb, const float beta, float *C, const int ldc) {
+                     const float alpha, const float *A, const int lda, const float *B, const int ldb, const float beta, float *C, const int ldc) { // NB OPE FLOTANTE = 2*M*N*K + 3*M
     if(layout == MNCblasRowMajor) {
         if(TransA == MNCblasNoTrans) {
             register float sum ;
@@ -34,7 +34,7 @@ void mncblas_sgemm(MNCBLAS_LAYOUT layout, MNCBLAS_TRANSPOSE TransA, MNCBLAS_TRAN
 
 void mncblas_dgemm(MNCBLAS_LAYOUT layout, MNCBLAS_TRANSPOSE TransA, MNCBLAS_TRANSPOSE TransB,
                      const int M, const int N, const int K,
-                     const double alpha, const double *A, const int lda, const double *B, const int ldb, const double beta, double *C, const int ldc) {
+                     const double alpha, const double *A, const int lda, const double *B, const int ldb, const double beta, double *C, const int ldc) { // NB OPE FLOTANTE = 2*M*N*K + 3*M
     if(layout == MNCblasRowMajor) {
         if(TransA == MNCblasNoTrans) {
             register double sum ;
@@ -65,7 +65,7 @@ void mncblas_dgemm(MNCBLAS_LAYOUT layout, MNCBLAS_TRANSPOSE TransA, MNCBLAS_TRAN
 
 void mncblas_cgemm(MNCBLAS_LAYOUT layout, MNCBLAS_TRANSPOSE TransA, MNCBLAS_TRANSPOSE TransB,
                      const int M, const int N, const int K,
-                     const void *alpha, const void *A, const int lda, const void *B, const int ldb, const void *beta, void *C, const int ldc) {
+                     const void *alpha, const void *A, const int lda, const void *B, const int ldb, const void *beta, void *C, const int ldc) { // NB OPE FLOTANTE = 10*M*N*K + 18*M
     if(layout == MNCblasRowMajor) {
         if(TransA == MNCblasNoTrans) {
             register complexe_float_t sum ;
@@ -98,7 +98,7 @@ void mncblas_cgemm(MNCBLAS_LAYOUT layout, MNCBLAS_TRANSPOSE TransA, MNCBLAS_TRAN
 
 void mncblas_zgemm(MNCBLAS_LAYOUT layout, MNCBLAS_TRANSPOSE TransA, MNCBLAS_TRANSPOSE TransB,
                      const int M, const int N, const int K,
-                     const void *alpha, const void *A, const int lda, const void *B, const int ldb, const void *beta, void *C, const int ldc){
+                     const void *alpha, const void *A, const int lda, const void *B, const int ldb, const void *beta, void *C, const int ldc){ // NB OPE FLOTANTE = 10*M*N*K + 18*M
     if(layout == MNCblasRowMajor) {
         if(TransA == MNCblasNoTrans) {
             register complexe_double_t sum ;

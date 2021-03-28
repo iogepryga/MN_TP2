@@ -138,9 +138,12 @@ int main (int argc, char **argv) {
     free_vm(V2z);
 
     #define VECSIZE_FLOPS    100000
-    #define NB_EXPE     10
+    #define NB_EXPE_VISIBLE 6
+    #define NB_EXPE     1000
     #define NB_OPE_REEL 1 // ??
     #define NB_OPE_COMPLEXE 2 // ??
+
+    // Même chose que pour swap, je compte ici l'affectation comme une opération car elle prends quand même un cycle
 
     V1s = (float*)malloc(VECSIZE_FLOPS*sizeof(float)), V2s = (float*)malloc(VECSIZE_FLOPS*sizeof(float));
     V1d = (double*)malloc(VECSIZE_FLOPS*sizeof(double)), V2d = (double*)malloc(VECSIZE_FLOPS*sizeof(double));
@@ -150,14 +153,14 @@ int main (int argc, char **argv) {
 
     printf("||||||||||||||||||||||||||||||||||||||||||||||||||||||||\n                  2 : FLOPS\n <-------------------------------------------------->\n                     float\n");
     unsigned long long int start, end ; 
-    for(int i = 0; i < NB_EXPE; i++) {
+    for(int i = 0; i < NB_EXPE_VISIBLE; i++) {
         printf("------------------------------------------------\n");
         start = _rdtsc();
         mncblas_scopy(VECSIZE_FLOPS,V1s,1,V2s,1);
         end = _rdtsc();
         calcul_flop("mncblas_scopy : ", NB_OPE_REEL*VECSIZE_FLOPS ,end-start);
     }
-    printf("<--------------------------------------------------------------->\n                      float sur NB_EXPE\n");
+    printf("<--------------------------------------------------------------->\n                      float sur NB_EXPE (%d)\n",NB_EXPE);
     start = _rdtsc();
     for(int i = 0; i < NB_EXPE; i++) {
         mncblas_scopy(VECSIZE_FLOPS,V1s,1,V2s,1);
@@ -165,14 +168,14 @@ int main (int argc, char **argv) {
     end = _rdtsc();
     calcul_flop("mncblas_scopy : ", NB_EXPE*NB_OPE_REEL*VECSIZE_FLOPS ,end-start);
     printf("<--------------------------------------------------------------->\n                      double\n");
-    for(int i = 0; i < NB_EXPE; i++) {
+    for(int i = 0; i < NB_EXPE_VISIBLE; i++) {
         printf("------------------------------------------------\n");
         start = _rdtsc();
         mncblas_dcopy(VECSIZE_FLOPS,V1d,1,V2d,1);
         end = _rdtsc();
         calcul_flop("mncblas_dcopy : ", NB_OPE_REEL*VECSIZE_FLOPS ,end-start);
     }
-    printf("<--------------------------------------------------------------->\n                      double sur NB_EXPE\n");
+    printf("<--------------------------------------------------------------->\n                      double sur NB_EXPE (%d)\n",NB_EXPE);
     start = _rdtsc();
     for(int i = 0; i < NB_EXPE; i++) {
         mncblas_dcopy(VECSIZE_FLOPS,V1d,1,V2d,1);
@@ -180,14 +183,14 @@ int main (int argc, char **argv) {
     end = _rdtsc();
     calcul_flop("mncblas_dcopy : ", NB_EXPE*NB_OPE_REEL*VECSIZE_FLOPS ,end-start);
     printf("<--------------------------------------------------------------->\n                      complexe_float_t\n");
-    for(int i = 0; i < NB_EXPE; i++) {
+    for(int i = 0; i < NB_EXPE_VISIBLE; i++) {
         printf("------------------------------------------------\n");
         start = _rdtsc();
         mncblas_ccopy(VECSIZE_FLOPS,V1c,1,V2c,1);
         end = _rdtsc();
         calcul_flop("mncblas_ccopy : ", NB_OPE_COMPLEXE*VECSIZE_FLOPS ,end-start);
     }
-    printf("<--------------------------------------------------------------->\n                      complexe_float_t sur NB_EXPE\n");
+    printf("<--------------------------------------------------------------->\n                      complexe_float_t sur NB_EXPE (%d)\n",NB_EXPE);
     start = _rdtsc();
     for(int i = 0; i < NB_EXPE; i++) {
         mncblas_ccopy(VECSIZE_FLOPS,V1c,1,V2c,1);
@@ -195,14 +198,14 @@ int main (int argc, char **argv) {
     end = _rdtsc();
     calcul_flop("mncblas_ccopy : ", NB_EXPE*NB_OPE_COMPLEXE*VECSIZE_FLOPS ,end-start);
     printf("<--------------------------------------------------------------->\n                      complexe_double_t\n");
-    for(int i = 0; i < NB_EXPE; i++) {
+    for(int i = 0; i < NB_EXPE_VISIBLE; i++) {
         printf("------------------------------------------------\n");
         start = _rdtsc();
         mncblas_zcopy(VECSIZE_FLOPS,V1z,1,V2z,1);
         end = _rdtsc();
         calcul_flop("mncblas_zcopy : ", NB_OPE_COMPLEXE*VECSIZE_FLOPS ,end-start);
     }
-    printf("<--------------------------------------------------------------->\n                      complexe_double_t sur NB_EXPE\n");
+    printf("<--------------------------------------------------------------->\n                      complexe_double_t sur NB_EXPE (%d)\n",NB_EXPE);
     start = _rdtsc();
     for(int i = 0; i < NB_EXPE; i++) {
         mncblas_zcopy(VECSIZE_FLOPS,V1z,1,V2z,1);

@@ -11,7 +11,7 @@
 typedef enum {TYPE_FLOAT, TYPE_DOUBLE,TYPE_COMPLEXE_FLOAT,TYPE_COMPLEXE_DOUBLE} VTYPE;
 
 void init_flop () ;
-void calcul_flop (char *message, int nb_operations_flottantes, unsigned long long int cycles) ;
+void calcul_flop (char *message, unsigned long long int nb_operations_flottantes, unsigned long long int cycles) ;
 void free_vm (void* address);
 
 complexe_float_t gen_complexe_float (const float real, const float imaginary);
