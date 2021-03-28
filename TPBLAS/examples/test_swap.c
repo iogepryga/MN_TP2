@@ -165,7 +165,7 @@ int main (int argc, char **argv) {
         end = _rdtsc();
         calcul_flop("mncblas_sswap : ", NB_OPE_REEL*VECSIZE_FLOPS ,end-start);
     }
-    printf("<--------------------------------------------------------------->\n                      float sur NB_EXPE\n");
+    printf("<--------------------------------------------------------------->\n                      float sur NB_EXPE (%d)\n",NB_EXPE);
     start = _rdtsc();
     for(int i = 0; i < NB_EXPE; i++) {
         mncblas_sswap(VECSIZE_FLOPS,V1s,1,V2s,1);
@@ -180,7 +180,7 @@ int main (int argc, char **argv) {
         end = _rdtsc();
         calcul_flop("mncblas_dswap : ", NB_OPE_REEL*VECSIZE_FLOPS ,end-start);
     }
-    printf("<--------------------------------------------------------------->\n                      double sur NB_EXPE\n");
+    printf("<--------------------------------------------------------------->\n                      double sur NB_EXPE (%d)\n",NB_EXPE);
     start = _rdtsc();
     for(int i = 0; i < NB_EXPE; i++) {
         mncblas_dswap(VECSIZE_FLOPS,V1d,1,V2d,1);
@@ -195,7 +195,7 @@ int main (int argc, char **argv) {
         end = _rdtsc();
         calcul_flop("mncblas_cswap : ", NB_OPE_COMPLEXE*VECSIZE_FLOPS ,end-start);
     }
-    printf("<--------------------------------------------------------------->\n                      complexe_float_t sur NB_EXPE\n");
+    printf("<--------------------------------------------------------------->\n                      complexe_float_t sur NB_EXPE (%d)\n",NB_EXPE);
     start = _rdtsc();
     for(int i = 0; i < NB_EXPE; i++) {
         mncblas_cswap(VECSIZE_FLOPS,V1c,1,V2c,1);
@@ -210,7 +210,7 @@ int main (int argc, char **argv) {
         end = _rdtsc();
         calcul_flop("mncblas_zswap : ", NB_OPE_COMPLEXE*VECSIZE_FLOPS ,end-start);
     }
-    printf("<--------------------------------------------------------------->\n                      complexe_double_t sur NB_EXPE\n");
+    printf("<--------------------------------------------------------------->\n                      complexe_double_t sur NB_EXPE (%d)\n",NB_EXPE);
     start = _rdtsc();
     for(int i = 0; i < NB_EXPE; i++) {
         mncblas_dzasum(VECSIZE_FLOPS,V1z,1);
