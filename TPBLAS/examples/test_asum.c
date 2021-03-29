@@ -16,8 +16,8 @@
 #include "testutils.h"
 #endif
 
-#define VECSIZE_RESULTAT     20
-#define RAND_MAXIMUM 10
+#define VECSIZE_RESULTAT    20
+#define RAND_MAXIMUM        10
 
 int main (int argc, char **argv) {
     float* V1s = (float*)malloc(VECSIZE_RESULTAT*sizeof(float));
@@ -107,16 +107,16 @@ int main (int argc, char **argv) {
     printf("mnblas_dzasum : %f\n",mnblas_dzasum(VECSIZE_RESULTAT,V1z,1));
 
 
-    free_vm(V1s);
-    free_vm(V1d);
-    free_vm(V1c);
-    free_vm(V1z);
+    free(V1s);
+    free(V1d);
+    free(V1c);
+    free(V1z);
 
-    #define VECSIZE_FLOPS    100000
-    #define NB_EXPE_VISIBLE 6
-    #define NB_EXPE     1000
-    #define NB_OPE_REEL 1
-    #define NB_OPE_COMPLEXE 2 // 2 car ici les vecteurs sont positif , pas besoin de réaliser l'absolue
+    #define VECSIZE_FLOPS       100000
+    #define NB_EXPE_VISIBLE     6
+    #define NB_EXPE             1000
+    #define NB_OPE_REEL         (1*VECSIZE_FLOPS) // 1 car ici les vecteurs sont positif , pas besoin de réaliser l'absolue
+    #define NB_OPE_COMPLEXE     (2*VECSIZE_FLOPS) // 2 car ici les vecteurs sont positif , pas besoin de réaliser l'absolue
 
     // V1s = (float*)malloc(VECSIZE_FLOPS*sizeof(float));
     // V1d = (double*)malloc(VECSIZE_FLOPS*sizeof(double));
@@ -128,6 +128,7 @@ int main (int argc, char **argv) {
     V1c = vector_cinit(gen_complexe_float(1,1),VECSIZE_FLOPS);
     V1z = vector_zinit(gen_complexe_double(1,1),VECSIZE_FLOPS);
 
+    init_flop();
 
     printf("||||||||||||||||||||||||||||||||||||||||||||||||||||||||\n                  2 : FLOPS\n <-------------------------------------------------->\n                     float\n");
     unsigned long long int start, end ; 
@@ -136,7 +137,7 @@ int main (int argc, char **argv) {
         start = _rdtsc();
         mnblas_sasum(VECSIZE_FLOPS,V1s,1);
         end = _rdtsc();
-        calcul_flop("mnblas_sasum : ", NB_OPE_REEL*VECSIZE_FLOPS ,end-start);
+        calcul_flop("mnblas_sasum : ", NB_OPE_REEL ,end-start);
     }
     printf("<--------------------------------------------------------------->\n                      float sur NB_EXPE (%d)\n",NB_EXPE);
     start = _rdtsc();
@@ -144,14 +145,14 @@ int main (int argc, char **argv) {
         mnblas_sasum(VECSIZE_FLOPS,V1s,1);
     }
     end = _rdtsc();
-    calcul_flop("mnblas_sasum : ", NB_EXPE*NB_OPE_REEL*VECSIZE_FLOPS ,end-start);
+    calcul_flop("mnblas_sasum : ", NB_EXPE*NB_OPE_REEL ,end-start);
     printf("<--------------------------------------------------------------->\n                      double\n");
     for(int i = 0; i < NB_EXPE_VISIBLE; i++) {
         printf("------------------------------------------------\n");
         start = _rdtsc();
         mnblas_dasum(VECSIZE_FLOPS,V1d,1);
         end = _rdtsc();
-        calcul_flop("mnblas_dasum : ", NB_OPE_REEL*VECSIZE_FLOPS ,end-start);
+        calcul_flop("mnblas_dasum : ", NB_OPE_REEL ,end-start);
     }
     printf("<--------------------------------------------------------------->\n                      double sur NB_EXPE (%d)\n",NB_EXPE);
     start = _rdtsc();
@@ -159,14 +160,14 @@ int main (int argc, char **argv) {
         mnblas_dasum(VECSIZE_FLOPS,V1d,1);
     }
     end = _rdtsc();
-    calcul_flop("mnblas_dasum : ", NB_EXPE*NB_OPE_REEL*VECSIZE_FLOPS ,end-start);
+    calcul_flop("mnblas_dasum : ", NB_EXPE*NB_OPE_REEL ,end-start);
     printf("<--------------------------------------------------------------->\n                      complexe_float_t\n");
     for(int i = 0; i < NB_EXPE_VISIBLE; i++) {
         printf("------------------------------------------------\n");
         start = _rdtsc();
         mnblas_scasum(VECSIZE_FLOPS,V1c,1);
         end = _rdtsc();
-        calcul_flop("mnblas_scasum : ", NB_OPE_COMPLEXE*VECSIZE_FLOPS ,end-start);
+        calcul_flop("mnblas_scasum : ", NB_OPE_COMPLEXE ,end-start);
     }
     printf("<--------------------------------------------------------------->\n                      complexe_float_t sur NB_EXPE (%d)\n",NB_EXPE);
     start = _rdtsc();
@@ -174,14 +175,14 @@ int main (int argc, char **argv) {
         mnblas_scasum(VECSIZE_FLOPS,V1c,1);
     }
     end = _rdtsc();
-    calcul_flop("mnblas_scasum : ", NB_EXPE*NB_OPE_COMPLEXE*VECSIZE_FLOPS ,end-start);
+    calcul_flop("mnblas_scasum : ", NB_EXPE*NB_OPE_COMPLEXE ,end-start);
     printf("<--------------------------------------------------------------->\n                      complexe_double_t\n");
     for(int i = 0; i < NB_EXPE_VISIBLE; i++) {
         printf("------------------------------------------------\n");
         start = _rdtsc();
         mnblas_dzasum(VECSIZE_FLOPS,V1z,1);
         end = _rdtsc();
-        calcul_flop("mnblas_dzasum : ", NB_OPE_COMPLEXE*VECSIZE_FLOPS ,end-start);
+        calcul_flop("mnblas_dzasum : ", NB_OPE_COMPLEXE ,end-start);
     }
     printf("<--------------------------------------------------------------->\n                      complexe_double_t sur NB_EXPE (%d)\n",NB_EXPE);
     start = _rdtsc();
@@ -189,12 +190,12 @@ int main (int argc, char **argv) {
         mnblas_dzasum(VECSIZE_FLOPS,V1z,1);
     }
     end = _rdtsc();
-    calcul_flop("mnblas_dzasum : ", NB_EXPE*NB_OPE_COMPLEXE*VECSIZE_FLOPS ,end-start);
+    calcul_flop("mnblas_dzasum : ", NB_EXPE*NB_OPE_COMPLEXE ,end-start);
 
 
 
-    free_vm(V1s);
-    free_vm(V1d);
-    free_vm(V1c);
-    free_vm(V1z);
+    free(V1s);
+    free(V1d);
+    free(V1c);
+    free(V1z);
 }

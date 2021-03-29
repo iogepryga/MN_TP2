@@ -128,32 +128,32 @@ int main (int argc, char **argv) {
     printf("V2z : "); vector_print(V2z,TYPE_COMPLEXE_DOUBLE,VECSIZE_RESULTAT);
 
 
-    free_vm(V1s);
-    free_vm(V1d);
-    free_vm(V1c);
-    free_vm(V1z);
-    free_vm(V2s);
-    free_vm(V2d);
-    free_vm(V2c);
-    free_vm(V2z);
+    free(V1s);
+    free(V1d);
+    free(V1c);
+    free(V1z);
+    free(V2s);
+    free(V2d);
+    free(V2c);
+    free(V2z);
 
 
     
 
 
 
-    #define VECSIZE_FLOPS    100000
-    #define NB_EXPE_VISIBLE 6
-    #define NB_EXPE     1000
-    #define NB_OPE_REEL 2 // ??
-    #define NB_OPE_COMPLEXE 4 // ??
+    #define VECSIZE_OS             100000
+    #define NB_EXPE_VISIBLE         6
+    #define NB_EXPE                 1000
+    #define NB_O_REEL_FLOAT        (3*VECSIZE_OS*sizeof(float))
+    #define NB_O_REEL_DOUBLE       (3*VECSIZE_OS*sizeof(double))
+    #define NB_O_COMPLEXE_FLOAT    (3*VECSIZE_OS*sizeof(complexe_float_t))
+    #define NB_O_COMPLEXE_DOUBLE   (3*VECSIZE_OS*sizeof(complexe_double_t))
 
-    // Il n'a pas d'opération flotante à proprement parler dans les fonctions swap. Ici , j'ai mis 1 pour ne pas mettre 0 car on peut evetuellement dire que l'affectation prend un cycle.
-
-    V1s = (float*)malloc(VECSIZE_FLOPS*sizeof(float)), V2s = (float*)malloc(VECSIZE_FLOPS*sizeof(float));
-    V1d = (double*)malloc(VECSIZE_FLOPS*sizeof(double)), V2d = (double*)malloc(VECSIZE_FLOPS*sizeof(double));
-    V1c = (complexe_float_t*)malloc(VECSIZE_FLOPS*sizeof(complexe_float_t)), V2c = (complexe_float_t*)malloc(VECSIZE_FLOPS*sizeof(complexe_float_t));
-    V1z = (complexe_double_t*)malloc(VECSIZE_FLOPS*sizeof(complexe_double_t)), V2z = (complexe_double_t*)malloc(VECSIZE_FLOPS*sizeof(complexe_double_t));
+    V1s = (float*)malloc(VECSIZE_OS*sizeof(float)), V2s = (float*)malloc(VECSIZE_OS*sizeof(float));
+    V1d = (double*)malloc(VECSIZE_OS*sizeof(double)), V2d = (double*)malloc(VECSIZE_OS*sizeof(double));
+    V1c = (complexe_float_t*)malloc(VECSIZE_OS*sizeof(complexe_float_t)), V2c = (complexe_float_t*)malloc(VECSIZE_OS*sizeof(complexe_float_t));
+    V1z = (complexe_double_t*)malloc(VECSIZE_OS*sizeof(complexe_double_t)), V2z = (complexe_double_t*)malloc(VECSIZE_OS*sizeof(complexe_double_t));
 
 
     printf("||||||||||||||||||||||||||||||||||||||||||||||||||||||||\n                  2 : FLOPS\n <-------------------------------------------------->\n                     float\n");
@@ -161,70 +161,70 @@ int main (int argc, char **argv) {
     for(int i = 0; i < NB_EXPE_VISIBLE; i++) {
         printf("------------------------------------------------\n");
         start = _rdtsc();
-        mncblas_sswap(VECSIZE_FLOPS,V1s,1,V2s,1);
+        mncblas_sswap(VECSIZE_OS,V1s,1,V2s,1);
         end = _rdtsc();
-        calcul_flop("mncblas_sswap : ", NB_OPE_REEL*VECSIZE_FLOPS ,end-start);
+        calcul_o("mncblas_sswap : ", NB_O_REEL_FLOAT ,end-start);
     }
     printf("<--------------------------------------------------------------->\n                      float sur NB_EXPE (%d)\n",NB_EXPE);
     start = _rdtsc();
     for(int i = 0; i < NB_EXPE; i++) {
-        mncblas_sswap(VECSIZE_FLOPS,V1s,1,V2s,1);
+        mncblas_sswap(VECSIZE_OS,V1s,1,V2s,1);
     }
     end = _rdtsc();
-    calcul_flop("mncblas_sswap : ", NB_EXPE*NB_OPE_REEL*VECSIZE_FLOPS ,end-start);
+    calcul_o("mncblas_sswap : ", NB_EXPE*NB_O_REEL_FLOAT ,end-start);
     printf("<--------------------------------------------------------------->\n                      double\n");
     for(int i = 0; i < NB_EXPE_VISIBLE; i++) {
         printf("------------------------------------------------\n");
         start = _rdtsc();
-        mncblas_dswap(VECSIZE_FLOPS,V1d,1,V2d,1);
+        mncblas_dswap(VECSIZE_OS,V1d,1,V2d,1);
         end = _rdtsc();
-        calcul_flop("mncblas_dswap : ", NB_OPE_REEL*VECSIZE_FLOPS ,end-start);
+        calcul_o("mncblas_dswap : ", NB_O_REEL_DOUBLE ,end-start);
     }
     printf("<--------------------------------------------------------------->\n                      double sur NB_EXPE (%d)\n",NB_EXPE);
     start = _rdtsc();
     for(int i = 0; i < NB_EXPE; i++) {
-        mncblas_dswap(VECSIZE_FLOPS,V1d,1,V2d,1);
+        mncblas_dswap(VECSIZE_OS,V1d,1,V2d,1);
     }
     end = _rdtsc();
-    calcul_flop("mncblas_dswap : ", NB_EXPE*NB_OPE_REEL*VECSIZE_FLOPS ,end-start);
+    calcul_o("mncblas_dswap : ", NB_EXPE*NB_O_REEL_DOUBLE ,end-start);
     printf("<--------------------------------------------------------------->\n                      complexe_float_t\n");
     for(int i = 0; i < NB_EXPE_VISIBLE; i++) {
         printf("------------------------------------------------\n");
         start = _rdtsc();
-        mncblas_cswap(VECSIZE_FLOPS,V1c,1,V2c,1);
+        mncblas_cswap(VECSIZE_OS,V1c,1,V2c,1);
         end = _rdtsc();
-        calcul_flop("mncblas_cswap : ", NB_OPE_COMPLEXE*VECSIZE_FLOPS ,end-start);
+        calcul_o("mncblas_cswap : ", NB_O_COMPLEXE_FLOAT ,end-start);
     }
     printf("<--------------------------------------------------------------->\n                      complexe_float_t sur NB_EXPE (%d)\n",NB_EXPE);
     start = _rdtsc();
     for(int i = 0; i < NB_EXPE; i++) {
-        mncblas_cswap(VECSIZE_FLOPS,V1c,1,V2c,1);
+        mncblas_cswap(VECSIZE_OS,V1c,1,V2c,1);
     }
     end = _rdtsc();
-    calcul_flop("mncblas_cswap : ", NB_EXPE*NB_OPE_COMPLEXE*VECSIZE_FLOPS ,end-start);
+    calcul_o("mncblas_cswap : ", NB_EXPE*NB_O_COMPLEXE_FLOAT ,end-start);
     printf("<--------------------------------------------------------------->\n                      complexe_double_t\n");
     for(int i = 0; i < NB_EXPE_VISIBLE; i++) {
         printf("------------------------------------------------\n");
         start = _rdtsc();
-        mncblas_zswap(VECSIZE_FLOPS,V1z,1,V2z,1);
+        mncblas_zswap(VECSIZE_OS,V1z,1,V2z,1);
         end = _rdtsc();
-        calcul_flop("mncblas_zswap : ", NB_OPE_COMPLEXE*VECSIZE_FLOPS ,end-start);
+        calcul_o("mncblas_zswap : ", NB_O_COMPLEXE_DOUBLE ,end-start);
     }
     printf("<--------------------------------------------------------------->\n                      complexe_double_t sur NB_EXPE (%d)\n",NB_EXPE);
     start = _rdtsc();
     for(int i = 0; i < NB_EXPE; i++) {
-        mncblas_dzasum(VECSIZE_FLOPS,V1z,1);
+        mncblas_zswap(VECSIZE_OS,V1z,1,V2z,1);
     }
     end = _rdtsc();
-    calcul_flop("mncblas_zswap : ", NB_EXPE*NB_OPE_COMPLEXE*VECSIZE_FLOPS ,end-start);
+    calcul_o("mncblas_zswap : ", NB_EXPE*NB_O_COMPLEXE_DOUBLE ,end-start);
 
 
-    free_vm(V1s);
-    free_vm(V1d);
-    free_vm(V1c);
-    free_vm(V1z);
-    free_vm(V2s);
-    free_vm(V2d);
-    free_vm(V2c);
-    free_vm(V2z);
+    free(V1s);
+    free(V1d);
+    free(V1c);
+    free(V1z);
+    free(V2s);
+    free(V2d);
+    free(V2c);
+    free(V2z);
 }

@@ -24,8 +24,8 @@ void calcul_flop (char *message, unsigned long long int nb_operations_flottantes
   printf ("%s %lld operations %5.3f GFLOP/s\n", message, nb_operations_flottantes, ((float) nb_operations_flottantes) / (((float) (cycles - residu)) * duree_cycle)) ;
 }
 
-void free_vm (void* address) {
-    free(address);
+void calcul_o (char *message, unsigned long long int o, unsigned long long int cycles) {
+  printf ("%s %lld octets %5.3f GO/s\n", message, o, ((float) o) / (((float) (cycles - residu)) * duree_cycle)) ;
 }
 
 complexe_float_t gen_complexe_float (const float real, const float imaginary) {
@@ -68,7 +68,7 @@ void row_to_col_major(VTYPE type, void* V, const int M, const int N) {
                 *(((float*)V)+j*M+i) = *(tmp+i*N+j);
             }
         }
-        free_vm(tmp);
+        free(tmp);
     } else if (type == TYPE_DOUBLE) {
         double* tmp = (double*)malloc(M*N*sizeof(double));
         mncblas_dcopy(M*N,V,1,tmp,1);
@@ -77,7 +77,7 @@ void row_to_col_major(VTYPE type, void* V, const int M, const int N) {
                 *(((double*)V)+j*M+i) = *(tmp+i*N+j);
             }
         }
-        free_vm(tmp);
+        free(tmp);
     } else if (type == TYPE_DOUBLE) {
         complexe_float_t* tmp = (complexe_float_t*)malloc(M*N*sizeof(complexe_float_t));
         mncblas_ccopy(M*N,V,1,tmp,1);
@@ -86,7 +86,7 @@ void row_to_col_major(VTYPE type, void* V, const int M, const int N) {
                 *(((complexe_float_t*)V)+j*M+i) = *(tmp+i*N+j);
             }
         }
-        free_vm(tmp);
+        free(tmp);
     } else if (type == TYPE_DOUBLE) {
         complexe_double_t* tmp = (complexe_double_t*)malloc(M*N*sizeof(complexe_double_t));
         mncblas_zcopy(M*N,V,1,tmp,1);
@@ -95,7 +95,7 @@ void row_to_col_major(VTYPE type, void* V, const int M, const int N) {
                 *(((complexe_double_t*)V)+j*M+i) = *(tmp+i*N+j);
             }
         }
-        free_vm(tmp);
+        free(tmp);
     }
 }
 

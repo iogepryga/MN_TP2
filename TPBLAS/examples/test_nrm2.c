@@ -16,8 +16,8 @@
 #include "testutils.h"
 #endif
 
-#define VECSIZE_RESULTAT     20
-#define RAND_MAXIMUM 10
+#define VECSIZE_RESULTAT    20
+#define RAND_MAXIMUM        10
 
 int main (int argc, char **argv) {
     float* V1s = (float*)malloc(VECSIZE_RESULTAT*sizeof(float));
@@ -107,22 +107,23 @@ int main (int argc, char **argv) {
     printf("mnblas_dznrm2 : %f\n",mnblas_dznrm2(VECSIZE_RESULTAT,V1z,1));
 
 
-    free_vm(V1s);
-    free_vm(V1d);
-    free_vm(V1c);
-    free_vm(V1z);
+    free(V1s);
+    free(V1d);
+    free(V1c);
+    free(V1z);
 
-    #define VECSIZE_FLOPS    100000
+    #define VECSIZE_FLOPS       100000
     #define NB_EXPE_VISIBLE     6
-    #define NB_EXPE     1000
-    #define NB_OPE_REEL 2
-    #define NB_OPE_COMPLEXE 4
+    #define NB_EXPE             1000
+    #define NB_OPE_REEL         (2*VECSIZE_FLOPS+1)
+    #define NB_OPE_COMPLEXE     (4*VECSIZE_FLOPS+1)
 
     V1s = (float*)malloc(VECSIZE_FLOPS*sizeof(float));
     V1d = (double*)malloc(VECSIZE_FLOPS*sizeof(double));
     V1c = (complexe_float_t*)malloc(VECSIZE_FLOPS*sizeof(complexe_float_t));
     V1z = (complexe_double_t*)malloc(VECSIZE_FLOPS*sizeof(complexe_double_t));
 
+    init_flop();
 
     printf("||||||||||||||||||||||||||||||||||||||||||||||||||||||||\n                  2 : FLOPS\n <-------------------------------------------------->\n                     float\n");
     unsigned long long int start, end ; 
@@ -131,7 +132,7 @@ int main (int argc, char **argv) {
         start = _rdtsc();
         mnblas_snrm2(VECSIZE_FLOPS,V1s,1);
         end = _rdtsc();
-        calcul_flop("mnblas_snrm2 : ", NB_OPE_REEL*VECSIZE_FLOPS ,end-start);
+        calcul_flop("mnblas_snrm2 : ", NB_OPE_REEL ,end-start);
     }
     printf("<--------------------------------------------------------------->\n                      float sur NB_EXPE (%d)\n",NB_EXPE);
     start = _rdtsc();
@@ -139,14 +140,14 @@ int main (int argc, char **argv) {
         mnblas_snrm2(VECSIZE_FLOPS,V1s,1);
     }
     end = _rdtsc();
-    calcul_flop("mnblas_snrm2 : ", NB_EXPE*NB_OPE_REEL*VECSIZE_FLOPS ,end-start);
+    calcul_flop("mnblas_snrm2 : ", NB_EXPE*NB_OPE_REEL ,end-start);
     printf("<--------------------------------------------------------------->\n                      double\n");
     for(int i = 0; i < NB_EXPE_VISIBLE; i++) {
         printf("------------------------------------------------\n");
         start = _rdtsc();
         mnblas_dnrm2(VECSIZE_FLOPS,V1d,1);
         end = _rdtsc();
-        calcul_flop("mnblas_dnrm2 : ", NB_OPE_REEL*VECSIZE_FLOPS ,end-start);
+        calcul_flop("mnblas_dnrm2 : ", NB_OPE_REEL ,end-start);
     }
     printf("<--------------------------------------------------------------->\n                      double sur NB_EXPE (%d)\n",NB_EXPE);
     start = _rdtsc();
@@ -154,14 +155,14 @@ int main (int argc, char **argv) {
         mnblas_dnrm2(VECSIZE_FLOPS,V1d,1);
     }
     end = _rdtsc();
-    calcul_flop("mnblas_dnrm2 : ", NB_EXPE*NB_OPE_REEL*VECSIZE_FLOPS ,end-start);
+    calcul_flop("mnblas_dnrm2 : ", NB_EXPE*NB_OPE_REEL ,end-start);
     printf("<--------------------------------------------------------------->\n                      complexe_float_t\n");
     for(int i = 0; i < NB_EXPE_VISIBLE; i++) {
         printf("------------------------------------------------\n");
         start = _rdtsc();
         mnblas_scnrm2(VECSIZE_FLOPS,V1c,1);
         end = _rdtsc();
-        calcul_flop("mnblas_scnrm2 : ", NB_OPE_COMPLEXE*VECSIZE_FLOPS ,end-start);
+        calcul_flop("mnblas_scnrm2 : ", NB_OPE_COMPLEXE ,end-start);
     }
     printf("<--------------------------------------------------------------->\n                      complexe_float_t sur NB_EXPE (%d)\n",NB_EXPE);
     start = _rdtsc();
@@ -169,14 +170,14 @@ int main (int argc, char **argv) {
         mnblas_scnrm2(VECSIZE_FLOPS,V1c,1);
     }
     end = _rdtsc();
-    calcul_flop("mnblas_scnrm2 : ", NB_EXPE*NB_OPE_COMPLEXE*VECSIZE_FLOPS ,end-start);
+    calcul_flop("mnblas_scnrm2 : ", NB_EXPE*NB_OPE_COMPLEXE ,end-start);
     printf("<--------------------------------------------------------------->\n                      complexe_double_t\n");
     for(int i = 0; i < NB_EXPE_VISIBLE; i++) {
         printf("------------------------------------------------\n");
         start = _rdtsc();
         mnblas_dznrm2(VECSIZE_FLOPS,V1z,1);
         end = _rdtsc();
-        calcul_flop("mnblas_dznrm2 : ", NB_OPE_COMPLEXE*VECSIZE_FLOPS ,end-start);
+        calcul_flop("mnblas_dznrm2 : ", NB_OPE_COMPLEXE ,end-start);
     }
     printf("<--------------------------------------------------------------->\n                      complexe_double_t sur NB_EXPE (%d)\n",NB_EXPE);
     start = _rdtsc();
@@ -184,12 +185,12 @@ int main (int argc, char **argv) {
         mnblas_dznrm2(VECSIZE_FLOPS,V1z,1);
     }
     end = _rdtsc();
-    calcul_flop("mnblas_dznrm2 : ", NB_EXPE*NB_OPE_COMPLEXE*VECSIZE_FLOPS ,end-start);
+    calcul_flop("mnblas_dznrm2 : ", NB_EXPE*NB_OPE_COMPLEXE ,end-start);
 
 
 
-    free_vm(V1s);
-    free_vm(V1d);
-    free_vm(V1c);
-    free_vm(V1z);
+    free(V1s);
+    free(V1d);
+    free(V1c);
+    free(V1z);
 }

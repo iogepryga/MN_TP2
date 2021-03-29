@@ -16,8 +16,8 @@
 #include "testutils.h"
 #endif
 
-#define VECSIZE_RESULTAT     20
-#define RAND_MAXIMUM 10
+#define VECSIZE_RESULTAT    20
+#define RAND_MAXIMUM        10
 
 int main (int argc, char **argv) {
     float* V1s = (float*)malloc(VECSIZE_RESULTAT*sizeof(float));
@@ -105,89 +105,92 @@ int main (int argc, char **argv) {
     printf("mnblas_izamin : %ld\n",mnblas_izamin(VECSIZE_RESULTAT,V1z,1));
 
 
-    free_vm(V1s);
-    free_vm(V1d);
-    free_vm(V1c);
-    free_vm(V1z);
+    free(V1s);
+    free(V1d);
+    free(V1c);
+    free(V1z);
 
-    #define VECSIZE_FLOPS    100000
-    #define NB_EXPE_VISIBLE 6
-    #define NB_EXPE     1000
-    #define NB_OPE_REEL 1
-    #define NB_OPE_COMPLEXE 2
+    #define VECSIZE_MOS             100000
+    #define NB_EXPE_VISIBLE         6
+    #define NB_EXPE                 1000
+    #define NB_O_REEL_FLOAT        (VECSIZE_MOS*sizeof(float)) // Il y a pas de affection de manière constante, donc je vais considere la lecture comme unité.
+    #define NB_O_REEL_DOUBLE       (VECSIZE_MOS*sizeof(double))
+    #define NB_O_COMPLEXE_FLOAT    (VECSIZE_MOS*sizeof(complexe_float_t))
+    #define NB_O_COMPLEXE_DOUBLE   (VECSIZE_MOS*sizeof(complexe_double_t))
 
-    V1s = (float*)malloc(VECSIZE_FLOPS*sizeof(float));
-    V1d = (double*)malloc(VECSIZE_FLOPS*sizeof(double));
-    V1c = (complexe_float_t*)malloc(VECSIZE_FLOPS*sizeof(complexe_float_t));
-    V1z = (complexe_double_t*)malloc(VECSIZE_FLOPS*sizeof(complexe_double_t));
+    V1s = (float*)malloc(VECSIZE_MOS*sizeof(float));
+    V1d = (double*)malloc(VECSIZE_MOS*sizeof(double));
+    V1c = (complexe_float_t*)malloc(VECSIZE_MOS*sizeof(complexe_float_t));
+    V1z = (complexe_double_t*)malloc(VECSIZE_MOS*sizeof(complexe_double_t));
 
+    init_flop();
 
     printf("||||||||||||||||||||||||||||||||||||||||||||||||||||||||\n                  2 : FLOPS\n <-------------------------------------------------->\n                     float\n");
     unsigned long long int start, end ; 
     for(int i = 0; i < NB_EXPE_VISIBLE; i++) {
         printf("------------------------------------------------\n");
         start = _rdtsc();
-        mnblas_isamin(VECSIZE_FLOPS,V1s,1);
+        mnblas_isamin(VECSIZE_MOS,V1s,1);
         end = _rdtsc();
-        calcul_flop("mnblas_isamin : ", NB_OPE_REEL*VECSIZE_FLOPS ,end-start);
+        calcul_o("mnblas_isamin : ", NB_O_REEL_FLOAT ,end-start);
     }
     printf("<--------------------------------------------------------------->\n                      float sur NB_EXPE (%d)\n",NB_EXPE);
     start = _rdtsc();
     for(int i = 0; i < NB_EXPE; i++) {
-        mnblas_isamin(VECSIZE_FLOPS,V1s,1);
+        mnblas_isamin(VECSIZE_MOS,V1s,1);
     }
     end = _rdtsc();
-    calcul_flop("mnblas_isamin : ", NB_EXPE*NB_OPE_REEL*VECSIZE_FLOPS ,end-start);
+    calcul_o("mnblas_isamin : ", NB_EXPE*NB_O_REEL_FLOAT ,end-start);
     printf("<--------------------------------------------------------------->\n                      double\n");
     for(int i = 0; i < NB_EXPE_VISIBLE; i++) {
         printf("------------------------------------------------\n");
         start = _rdtsc();
-        mnblas_idamin(VECSIZE_FLOPS,V1d,1);
+        mnblas_idamin(VECSIZE_MOS,V1d,1);
         end = _rdtsc();
-        calcul_flop("mnblas_idamin : ", NB_OPE_REEL*VECSIZE_FLOPS ,end-start);
+        calcul_o("mnblas_idamin : ", NB_O_REEL_DOUBLE ,end-start);
     }
     printf("<--------------------------------------------------------------->\n                      double sur NB_EXPE (%d)\n",NB_EXPE);
     start = _rdtsc();
     for(int i = 0; i < NB_EXPE; i++) {
-        mnblas_idamin(VECSIZE_FLOPS,V1d,1);
+        mnblas_idamin(VECSIZE_MOS,V1d,1);
     }
     end = _rdtsc();
-    calcul_flop("mnblas_idamin : ", NB_EXPE*NB_OPE_REEL*VECSIZE_FLOPS ,end-start);
+    calcul_o("mnblas_idamin : ", NB_EXPE*NB_O_REEL_DOUBLE ,end-start);
     printf("<--------------------------------------------------------------->\n                      complexe_float_t\n");
     for(int i = 0; i < NB_EXPE_VISIBLE; i++) {
         printf("------------------------------------------------\n");
         start = _rdtsc();
-        mnblas_icamin(VECSIZE_FLOPS,V1c,1);
+        mnblas_icamin(VECSIZE_MOS,V1c,1);
         end = _rdtsc();
-        calcul_flop("mnblas_icamin : ", NB_OPE_COMPLEXE*VECSIZE_FLOPS ,end-start);
+        calcul_o("mnblas_icamin : ", NB_O_COMPLEXE_FLOAT ,end-start);
     }
     printf("<--------------------------------------------------------------->\n                      complexe_float_t sur NB_EXPE (%d)\n",NB_EXPE);
     start = _rdtsc();
     for(int i = 0; i < NB_EXPE; i++) {
-        mnblas_icamin(VECSIZE_FLOPS,V1c,1);
+        mnblas_icamin(VECSIZE_MOS,V1c,1);
     }
     end = _rdtsc();
-    calcul_flop("mnblas_icamin : ", NB_EXPE*NB_OPE_COMPLEXE*VECSIZE_FLOPS ,end-start);
+    calcul_o("mnblas_icamin : ", NB_EXPE*NB_O_COMPLEXE_FLOAT ,end-start);
     printf("<--------------------------------------------------------------->\n                      complexe_double_t\n");
     for(int i = 0; i < NB_EXPE_VISIBLE; i++) {
         printf("------------------------------------------------\n");
         start = _rdtsc();
-        mnblas_izamin(VECSIZE_FLOPS,V1z,1);
+        mnblas_izamin(VECSIZE_MOS,V1z,1);
         end = _rdtsc();
-        calcul_flop("mnblas_izamin : ", NB_OPE_COMPLEXE*VECSIZE_FLOPS ,end-start);
+        calcul_o("mnblas_izamin : ", NB_O_COMPLEXE_DOUBLE ,end-start);
     }
     printf("<--------------------------------------------------------------->\n                      complexe_double_t sur NB_EXPE (%d)\n",NB_EXPE);
     start = _rdtsc();
     for(int i = 0; i < NB_EXPE; i++) {
-        mnblas_izamin(VECSIZE_FLOPS,V1z,1);
+        mnblas_izamin(VECSIZE_MOS,V1z,1);
     }
     end = _rdtsc();
-    calcul_flop("mnblas_izamin : ", NB_EXPE*NB_OPE_COMPLEXE*VECSIZE_FLOPS ,end-start);
+    calcul_o("mnblas_izamin : ", NB_EXPE*NB_O_COMPLEXE_DOUBLE ,end-start);
 
 
 
-    free_vm(V1s);
-    free_vm(V1d);
-    free_vm(V1c);
-    free_vm(V1z);
+    free(V1s);
+    free(V1d);
+    free(V1c);
+    free(V1z);
 }

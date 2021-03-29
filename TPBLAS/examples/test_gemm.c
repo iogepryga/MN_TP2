@@ -199,29 +199,29 @@ int main (int argc, char **argv) {
 
 
 
-    free_vm(M1s);
-    free_vm(M2s);
-    free_vm(M3s);
-    free_vm(M3s_copy);
-    free_vm(M1d);
-    free_vm(M2d);
-    free_vm(M3d);
-    free_vm(M3d_copy);
-    free_vm(M1c);
-    free_vm(M2c);
-    free_vm(M3c);
-    free_vm(M3c_copy);
-    free_vm(M1z);
-    free_vm(M2z);
-    free_vm(M3z);
-    free_vm(M3z_copy);
+    free(M1s);
+    free(M2s);
+    free(M3s);
+    free(M3s_copy);
+    free(M1d);
+    free(M2d);
+    free(M3d);
+    free(M3d_copy);
+    free(M1c);
+    free(M2c);
+    free(M3c);
+    free(M3c_copy);
+    free(M1z);
+    free(M2z);
+    free(M3z);
+    free(M3z_copy);
 
-    #define M_FLOPS    100
-    #define N_FLOPS    100
-    #define K_FLOPS    100
-    #define NB_EXPE    100
-    #define NB_OPE_REEL M_FLOPS*N_FLOPS*K_FLOPS*2+M_FLOPS*3
-    #define NB_OPE_COMPLEXE M_FLOPS*N_FLOPS*K_FLOPS*10+M_FLOPS*18
+    #define M_FLOPS         100
+    #define N_FLOPS         10
+    #define K_FLOPS         10
+    #define NB_EXPE         1000
+    #define NB_OPE_REEL     (M_FLOPS*N_FLOPS*K_FLOPS*2+M_FLOPS*3)
+    #define NB_OPE_COMPLEXE (M_FLOPS*N_FLOPS*K_FLOPS*8+M_FLOPS*14)
 
 
     M1s = (float*)malloc(M_RESULTAT*N_RESULTAT*sizeof(float));
@@ -237,8 +237,9 @@ int main (int argc, char **argv) {
     M2z = (complexe_double_t*)malloc(N_RESULTAT*K_RESULTAT*sizeof(complexe_double_t));
     M3z = (complexe_double_t*)malloc(M_RESULTAT*K_RESULTAT*sizeof(complexe_double_t));
 
+    init_flop();
 
-    printf("||||||||||||||||||||||||||||||||||||||||||||||||||||||||\n                  2 : FLOPS\n <-------------------------------------------------->\n");
+    printf("||||||||||||||||||||||||||||||||||||||||||||||||||||||||\n                  2 : FLOPS\n");
     unsigned long long int start, end ; 
     printf("<--------------------------------------------------------------->\n                      float sur NB_EXPE\n");
     start = _rdtsc();
@@ -270,16 +271,16 @@ int main (int argc, char **argv) {
     calcul_flop("mncblas_zgemm : ", NB_EXPE*NB_OPE_COMPLEXE ,end-start);
 
 
-    // free_vm(M1s);
-    // free_vm(M2s);
-    // free_vm(M3s);
-    // free_vm(M1d);
-    // free_vm(M2d);
-    // free_vm(M3d);
-    // free_vm(M1c);
-    // free_vm(M2c);
-    // free_vm(M3c);
-    // free_vm(M1z);
-    // free_vm(M2z);
-    // free_vm(M3z);
+    // free(M1s);
+    // free(M2s);
+    // free(M3s);
+    // free(M1d);
+    // free(M2d);
+    // free(M3d);
+    // free(M1c);
+    // free(M2c);
+    // free(M3c);
+    // free(M1z);
+    // free(M2z);
+    // free(M3z);
 }
