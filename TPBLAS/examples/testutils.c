@@ -7,7 +7,7 @@
 #include "testutils.h"
 #endif
 
-// La frequence du processeur est de 2.6 GHZ
+// La frequence du processeur est de 1.8 GHZ
 static const float duree_cycle = (float) 1 / (float) 1.8 ;
 // duree du cycle en nano seconde 10^-9
 
